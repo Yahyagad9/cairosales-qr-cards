@@ -1,0 +1,4 @@
+qrcode
+pymupdf
+xlrd
+beautifulsoup4

@@ -1,0 +1,13 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Regenerable / bulky
+data/raw/
+data/scrape_log.txt
+output/
+.render_*.html
+
+# macOS
+.DS_Store

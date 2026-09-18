@@ -76,6 +76,10 @@ h1 { font-size: 20px; font-weight: 800; line-height: 1.4; }
 .mytag { display: inline-block; font-size: 9px; font-weight: 800; color: #fff; background: var(--red); border-radius: 20px; padding: 2px 7px; margin-bottom: 4px; }
 .legend { margin-top: 10px; font-size: 10.5px; color: var(--body); font-weight: 600; line-height: 1.6; }
 
+.soldout { margin-top: 14px; padding: 14px 15px; border-radius: 13px; background: #FDF1F2; border: 1px solid #F6D7DA; }
+.soldout b { display: block; font-size: 14px; font-weight: 800; color: var(--red); margin-bottom: 4px; }
+.soldout span { font-size: 12px; font-weight: 600; color: #7A4247; line-height: 1.6; }
+
 .cta { display: flex; gap: 9px; }
 .cta a { flex: 1; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 7px; border-radius: 13px; padding: 14px 8px; font-size: 12.5px; font-weight: 800; }
 .cta .main { background: var(--red); color: #fff; }

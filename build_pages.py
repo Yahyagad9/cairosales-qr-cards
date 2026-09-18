@@ -6,6 +6,7 @@ Each page (docs/p/<code>.html) is what the big QR code on the printed card opens
 photo, price (cash + installments), full specs, highlights, and a comparison with
 similar products in the store — on size, performance, warranty and value, not just price.
 """
+import csv
 import html
 import json
 import re
@@ -244,6 +245,10 @@ h1 { font-size: 20px; font-weight: 800; line-height: 1.4; }
 .mytag { display: inline-block; font-size: 9px; font-weight: 800; color: #fff; background: var(--red); border-radius: 20px; padding: 2px 7px; margin-bottom: 4px; }
 .legend { margin-top: 10px; font-size: 10.5px; color: var(--body); font-weight: 600; line-height: 1.6; }
 
+.soldout { margin-top: 14px; padding: 14px 15px; border-radius: 13px; background: #FDF1F2; border: 1px solid #F6D7DA; }
+.soldout b { display: block; font-size: 14px; font-weight: 800; color: var(--red); margin-bottom: 4px; }
+.soldout span { font-size: 12px; font-weight: 600; color: #7A4247; line-height: 1.6; }
+
 .cta { display: flex; gap: 9px; }
 .cta a { flex: 1; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 7px; border-radius: 13px; padding: 14px 8px; font-size: 12.5px; font-weight: 800; }
 .cta .main { background: var(--red); color: #fff; }
@@ -325,7 +330,8 @@ def page_html(code, products):
     )
     bullets = "".join(f"<li>{e(b)}</li>" for b in quick_facts(p, family))
     about = e(s.get("short_description", "")).strip()
-    in_stock = s.get("availability") == "instock"
+    # Stock rule: a price on the website means we have it; no price means it is finished
+    in_stock = bool(price)
     warranty = s["specs"].get("الضمان")
     img = f"../img/{code}.jpg" if (DOCS / "img" / f"{code}.jpg").exists() else s["images"][0]
 
@@ -350,7 +356,7 @@ def page_html(code, products):
 
   <div class="stage">
     <div class="tags">
-      <span class="tag{'' if in_stock else ' out'}">● {'متوفر في الفرع' if in_stock else 'اسأل عن التوافر'}</span>
+      <span class="tag{'' if in_stock else ' out'}">● {'متوفر في الفرع' if in_stock else 'غير متوفر حاليًا'}</span>
       {f'<span class="tag grey">ضمان {e(warranty)}</span>' if warranty else ''}
     </div>
     <img src="{img}" alt="{e(p['model'])}">
@@ -366,17 +372,20 @@ def page_html(code, products):
       <h1>{e(clean_title(p))}</h1>
       <div class="sub">الموديل <b>{e(p['model'])}</b></div>
 
-      <div class="price">
+      {f"""<div class="soldout">
+        <b>المنتج ده مش متوفر دلوقتي</b>
+        <span>اسأل البائع إمتى هيوصل، أو كلّمنا على {STORE['hotline']}</span>
+      </div>""" if not in_stock else f'''<div class="price">
         <div class="lbl">سعر الكاش</div>
         <div class="amount">
           <span class="v n">{fmt(price)}</span><span class="c">جنيه</span>
           {f'<span class="save">وفّر {fmt(save)}</span>' if save else ''}
         </div>
-        {f'''<div class="split">
+        {f"""<div class="split">
           <div class="l">بالتقسيط<small>الإجمالي {fmt(inst)} جنيه</small></div>
           <div class="r"><b class="n">{fmt(monthly)}</b> <span>جنيه × {INSTALMENT_MONTHS} شهر</span></div>
-        </div>''' if inst and inst != price else ''}
-      </div>
+        </div>""" if inst and inst != price else ''}
+      </div>'''}
     </div>
 
     {f'<div class="card hl"><h2>باختصار</h2><ul>{bullets}</ul></div>' if bullets else ''}
@@ -410,14 +419,22 @@ def page_html(code, products):
 """
 
 
-def index_html(products):
+def index_html(products, items=None):
     e = html.escape
+    items = items or {}
     cards = []
     for code, p in sorted(products.items(), key=lambda kv: kv[1]["site"]["title"]):
         img = f"img/{code}.jpg" if (DOCS / "img" / f"{code}.jpg").exists() else p["site"]["images"][0]
         cards.append(
             f'<a class="item" href="p/{code}.html"><img src="{img}" alt="">'
             f'<b>{e(clean_title(p))}</b><div class="p n">{fmt(price_of(p))} EGP</div></a>'
+        )
+    for code, item in sorted(items.items(), key=lambda kv: kv[1]["name"]):
+        if code in products:
+            continue
+        cards.append(
+            f'<a class="item" href="p/{code}.html"><b>{e(item["name"])}</b>'
+            f'<div class="p" style="color:#656E7A">غير متوفر حاليًا</div></a>'
         )
     return f"""<!doctype html>
 <html lang="ar" dir="rtl">
@@ -444,9 +461,54 @@ def index_html(products):
 """
 
 
+def minimal_page(code, item):
+    """Item not on the website: no price, so it counts as out of stock."""
+    e = html.escape
+    name = e(item.get("name") or item.get("store_name") or "")
+    return f"""<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{name} - {STORE['name']}</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <div class="brandline">
+      <img src="../assets/logo.jpeg" alt="">
+      <div><b>{STORE['name']}</b><span>{STORE['branch']}</span></div>
+    </div>
+    <div class="where">{e(item.get('category',''))}</div>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <div class="kicker"><span>{e(item.get('category',''))}</span></div>
+      <h1>{name}</h1>
+      <div class="sub">الموديل <b>{e(item.get('model',''))}</b></div>
+      <div class="soldout">
+        <b>المنتج ده مش متوفر دلوقتي</b>
+        <span>اسأل البائع إمتى هيوصل، أو كلّمنا على {STORE['hotline']}</span>
+      </div>
+    </div>
+    <div class="cta">
+      <a class="main" href="https://cairosales.com/ar/">تصفّح موقعنا</a>
+      <a class="alt" href="tel:{STORE['hotline']}">اتصل بنا {STORE['hotline']}</a>
+    </div>
+    <div class="note">الخط الساخن <b>{STORE['hotline']}</b> · آخر تحديث <b class="n">{date.today().isoformat()}</b></div>
+  </div>
+</div>
+</body>
+</html>
+"""
+
+
 def main():
     products = json.loads((ROOT / "data" / "products.json").read_text(encoding="utf-8"))
     products = {c: p for c, p in products.items() if p.get("status") == "ok" and p.get("site")}
+    with (ROOT / "data" / "items.csv").open(encoding="utf-8-sig", newline="") as f:
+        items = {row["code"]: row for row in csv.DictReader(f)}
 
     (DOCS / "p").mkdir(parents=True, exist_ok=True)
     (DOCS / "assets").mkdir(parents=True, exist_ok=True)
@@ -457,8 +519,13 @@ def main():
 
     for code in products:
         (DOCS / "p" / f"{code}.html").write_text(page_html(code, products), encoding="utf-8")
-    (DOCS / "index.html").write_text(index_html(products), encoding="utf-8")
-    print(f"built {len(products)} product pages in docs/  →  {SITE_BASE}/p/<code>.html")
+    missing = [c for c in items if c not in products]
+    for code in missing:
+        (DOCS / "p" / f"{code}.html").write_text(minimal_page(code, items[code]), encoding="utf-8")
+    (DOCS / "index.html").write_text(index_html(products, items), encoding="utf-8")
+    print(f"built {len(products) + len(missing)} pages in docs/ "
+          f"({len(products)} with website data, {len(missing)} marked out of stock)"
+          f"  →  {SITE_BASE}/p/<code>.html")
 
 
 if __name__ == "__main__":

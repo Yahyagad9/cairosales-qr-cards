@@ -11,3 +11,5 @@ output/
 
 # macOS
 .DS_Store
+data/img_log.txt
+mockup/*.pdf

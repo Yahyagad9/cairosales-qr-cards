@@ -4,12 +4,15 @@ Run from this folder:  python make_label.py <item code> [more codes ...]
 Needs: qrcode, Google Chrome (used headless to render template.html).
 """
 import csv
+import json
 import subprocess
 import sys
 from pathlib import Path
 
 import pymupdf
 import qrcode
+
+import build_pages
 
 ROOT = Path(__file__).parent
 OUT = ROOT / "output"
@@ -20,22 +23,61 @@ STORE = {
     "hotline": "16141",
 }
 
-# Card text per item code. Brand, headline and spec chips are written by hand for now;
-# everything else (model, name, website link) comes from data/items.csv.
-CARD_DETAILS = {
-    "101001133": {
-        "brand": "LG",
-        "category": "غسالات ملابس",
-        "title": "غسالة ملابس ال جى",
-        "specs": [("8", "كيلو"), ("1400", "لفة"), ("", "سيلفر")],
-    },
-    "101062465": {
-        "brand": "LG",
-        "category": "شاشات",
-        "title": "شاشة ال جى كيوليد",
-        "specs": [("65", "بوصة"), ("", "4K"), ("", "سمارت")],
-    },
+# Headline, category and spec chips are built from the scraped website data
+# (data/products.json), so a card can be made for any item that was matched.
+# Add an entry here only to override the automatic text for one item.
+CARD_OVERRIDES = {
+    "101001133": {"title": "غسالة ملابس ال جى", "specs": [("8", "كيلو"), ("1400", "لفة"), ("", "سيلفر")]},
+    "101019001": {"title": "شفاط مطبخ إل جى 90 سم", "specs": [("90", "سم"), ("830", "م³/س"), ("", "تاتش")]},
+    "101062465": {"title": "شاشة ال جى كيوليد", "specs": [("65", "بوصة"), ("", "4K"), ("", "سمارت")]},
 }
+
+
+def auto_card_text(code, site):
+    """Headline + up to three chips, from the family-aware helpers in build_pages."""
+    record = {"code": code, "model": site.get("reference", ""), "site": site, "store_name": ""}
+    family = build_pages.family_of(record)
+    size = build_pages.size_of(record, family)
+    perf = build_pages.performance_of(record, family)
+    specs = site.get("specs", {})
+
+    brand_ar = build_pages.BRAND_AR.get(site.get("brand", ""), site.get("brand", ""))
+    kind = {"tv": "شاشة", "hood": "شفاط مطبخ", "washer": "غسالة ملابس"}.get(family, "")
+    head = " ".join(x for x in [kind, brand_ar] if x) or build_pages.clean_title(record)
+    if size:
+        head += f" {int(size)} {build_pages.size_unit(family)}"
+
+    chips = []
+    if family == "tv":
+        if perf["text"] != "—":
+            chips.append(("", perf["text"]))
+        if specs.get("إلترا", "").strip() in ("نعم", "Yes") or "4K" in site.get("title", ""):
+            chips.append(("", "4K"))
+        if specs.get("سمارت", "").strip() in ("نعم", "Yes"):
+            chips.append(("", "سمارت"))
+    elif family == "hood":
+        if perf["value"]:
+            chips.append((f"{int(perf['value'])}", "م³/س"))
+        if specs.get("شكل الشفاط"):
+            chips.append(("", specs["شكل الشفاط"]))
+        if specs.get("اللون"):
+            chips.append(("", specs["اللون"]))
+    elif family == "washer":
+        if perf["value"]:
+            chips.append((f"{int(perf['value'])}", "لفة"))
+        if specs.get("اللون"):
+            chips.append(("", specs["اللون"]))
+        if specs.get("بخار", "").strip() in ("نعم", "Yes"):
+            chips.append(("", "بخار"))
+    if not chips and specs.get("الضمان"):
+        chips.append(("", f"ضمان {specs['الضمان']}"))
+
+    return {
+        "brand": site.get("brand", "") or "",
+        "category": site.get("category", ""),
+        "title": head,
+        "specs": chips[:3],
+    }
 
 
 def load_item(code):
@@ -43,21 +85,16 @@ def load_item(code):
         row = next((r for r in csv.DictReader(f) if r["code"] == code), None)
     if row is None:
         sys.exit(f"Item code {code} not found in data/items.csv")
-    if code not in CARD_DETAILS:
-        sys.exit(f"No card details for {code} yet: add brand/title/specs to CARD_DETAILS")
-    if not row["url"]:
-        sys.exit(f"No website link for {code} in data/items.csv")
-    return {**row, **CARD_DETAILS[code]}
+    products = json.loads((ROOT / "data" / "products.json").read_text(encoding="utf-8"))
+    site = (products.get(code) or {}).get("site")
+    if not site:
+        sys.exit(f"No website data for {code}: run scrape_site.py first")
+    return {**row, **auto_card_text(code, site), **CARD_OVERRIDES.get(code, {})}
 
 
 def main_qr_payload(item):
-    # Placeholder: the big QR's purpose is still to be decided.
-    # Internal item code is deliberately left out: customers must not see it.
-    return "\n".join([
-        "Cairo Sales Stores",
-        f"الموديل: {item['model']}",
-        item["name"],
-    ])
+    # The big QR opens the item's own page (docs/p/<code>.html, published on GitHub Pages)
+    return f"{build_pages.SITE_BASE}/p/{item['code']}.html"
 
 
 def qr_svg(data, logo_hole=True, dark="#16181D", accent="#D71F2B"):

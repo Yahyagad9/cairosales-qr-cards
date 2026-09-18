@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>صفحة المنتج - أسواق القاهرة للمبيعات</title>
+<style>
+  @font-face { font-family: "Cairo"; src: url("../assets/fonts/Cairo.ttf"); font-weight: 200 1000; }
+  @font-face { font-family: "Inter"; src: url("../assets/fonts/Inter.ttf"); font-weight: 100 900; }
+
+  :root {
+    --night: #121A44;
+    --navy: #16205A;
+    --navy-2: #2A1C63;
+    --violet: #4B2E83;
+    --gold: #E0B457;
+    --gold-soft: #F6E3B4;
+    --cream: #FFFBF2;
+    --ink: #1A1B33;
+    --body: #5B5F7A;
+    --red: #D71F2B;
+    --green: #128A4C;
+  }
+  @page { size: 390px 2200px; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 390px; min-height: 2200px;
+    background: #0E1436;
+    font-family: "Cairo", sans-serif; color: var(--ink);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .num { font-family: "Inter", sans-serif; font-weight: 800; direction: ltr; unicode-bidi: isolate; }
+
+  /* ================= night sky hero ================= */
+  .sky {
+    position: relative; padding: 14px 16px 0;
+    background:
+      radial-gradient(60% 40% at 20% 8%, rgba(255,214,140,.16), transparent 70%),
+      radial-gradient(50% 35% at 85% 4%, rgba(147,197,253,.18), transparent 70%),
+      linear-gradient(175deg, #0E1436 0%, #232a75 38%, #6B3A96 72%, #A85A9B 92%, #E08A7A 100%);
+    overflow: hidden;
+  }
+  .stars, .fw { position: absolute; inset: 0; pointer-events: none; }
+
+  .topbar { position: relative; z-index: 3; display: flex; align-items: center; justify-content: space-between; }
+  .store { display: flex; align-items: center; gap: 9px; color: #fff; }
+  .crest {
+    width: 42px; height: 42px; border-radius: 50%; background: #fff; padding: 2px;
+    box-shadow: 0 0 0 2px var(--gold), 0 4px 14px rgba(0,0,0,.35);
+  }
+  .crest img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+  .store b { font-size: 14.5px; font-weight: 800; letter-spacing: .2px; }
+  .store span { display: block; font-size: 10.5px; color: var(--gold-soft); }
+  .locator {
+    font-size: 10.5px; font-weight: 800; color: #2A2208;
+    background: linear-gradient(160deg, #FBE7B0, var(--gold));
+    border-radius: 30px; padding: 6px 11px; box-shadow: 0 3px 10px rgba(0,0,0,.28);
+  }
+
+  /* marquee-light frame around the product photo */
+  .marquee {
+    position: relative; z-index: 3; margin-top: 14px; padding: 9px;
+    border-radius: 26px;
+    background: linear-gradient(160deg, #F7E6BC, #D9A94C 55%, #B07E2B);
+    box-shadow: 0 14px 34px rgba(0,0,0,.4);
+  }
+  .bulbs {
+    position: absolute; inset: 4px; border-radius: 22px;
+    background-image: radial-gradient(circle, #FFF6DC 0 1.6px, rgba(255,246,220,0) 2px);
+    background-size: 15px 15px; background-position: 0 0;
+    -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+    -webkit-mask-clip: padding-box, content-box;
+    padding: 6px; -webkit-mask-composite: xor; mask-composite: exclude;
+  }
+  .frame { position: relative; background: #fff; border-radius: 19px; padding: 8px; }
+  .frame img { width: 100%; display: block; border-radius: 13px; }
+  .ribbon {
+    position: absolute; top: 12px; inset-inline-start: 12px; z-index: 4;
+    background: var(--red); color: #fff; font-size: 10.5px; font-weight: 800;
+    padding: 5px 11px; border-radius: 30px; box-shadow: 0 4px 10px rgba(0,0,0,.3);
+  }
+  .dots { position: relative; z-index: 3; display: flex; justify-content: center; gap: 5px; margin: 10px 0 0; }
+  .dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.4); }
+  .dots i.on { width: 18px; border-radius: 3px; background: var(--gold); }
+
+  .castle { position: relative; z-index: 2; display: block; width: 100%; margin-top: 12px; filter: drop-shadow(0 -8px 22px rgba(255,190,120,.35)); }
+
+  /* ================= body ================= */
+  .wrap {
+    position: relative; z-index: 4; margin-top: -14px; padding: 0 14px 22px;
+    background: linear-gradient(180deg, #F3EFE4 0%, #FBF7EE 22%, #FBF7EE 100%);
+    border-radius: 30px 30px 0 0;
+  }
+  .card {
+    position: relative; background: var(--cream); border-radius: 22px; padding: 16px;
+    border: 1.6px solid #EADFC4;
+    box-shadow: 0 8px 20px rgba(26,27,51,.08);
+    margin-bottom: 13px;
+  }
+  .card::after {
+    content: ""; position: absolute; inset: 4px; border-radius: 17px;
+    border: 1px solid rgba(224,180,87,.35); pointer-events: none;
+  }
+  .card > * { position: relative; z-index: 1; }
+  h2 {
+    font-size: 15px; font-weight: 800; color: var(--navy);
+    display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+  }
+  h2 svg { width: 18px; height: 18px; }
+  h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(224,180,87,.7), rgba(224,180,87,0)); }
+
+  /* ---- title + price ---- */
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .chip { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 30px; background: #F0ECE0; color: var(--body); }
+  .chip.brand { background: var(--navy); color: #fff; font-family: "Inter"; font-weight: 800; letter-spacing: .4px; }
+  .chip.stock { background: #E6F5ED; color: var(--green); }
+  h1 { font-size: 20.5px; font-weight: 800; line-height: 1.35; color: var(--ink); }
+  .model { font-family: "Inter"; font-weight: 700; font-size: 12px; color: var(--body); direction: ltr; text-align: right; margin-top: 3px; }
+
+  /* golden ticket */
+  .ticket {
+    position: relative; margin-top: 14px; border-radius: 16px; padding: 14px 15px;
+    background: linear-gradient(150deg, #FFF4D8, #F7E2AE);
+    border: 1.4px dashed #C9A44C;
+  }
+  .ticket::before, .ticket::after {
+    content: ""; position: absolute; top: 50%; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--cream); transform: translateY(-50%);
+    border: 1.4px dashed #C9A44C;
+  }
+  .ticket::before { inset-inline-start: -9px; }
+  .ticket::after { inset-inline-end: -9px; }
+  .t-label { font-size: 10.5px; font-weight: 800; color: #8A6A1E; letter-spacing: 1px; }
+  .cash { display: flex; align-items: baseline; gap: 7px; margin-top: 2px; }
+  .cash .val { font-size: 35px; font-family: "Inter"; font-weight: 900; color: var(--red); letter-spacing: -.5px; }
+  .cash .cur { font-size: 15px; font-weight: 800; color: var(--red); }
+  .save { margin-inline-start: auto; font-size: 11px; font-weight: 800; color: var(--green); background: #E6F5ED; padding: 4px 9px; border-radius: 30px; }
+  .inst {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 11px; padding-top: 10px; border-top: 1px dashed rgba(201,164,76,.6);
+  }
+  .inst .lbl { font-size: 12px; font-weight: 800; color: #6B5518; }
+  .inst .total { font-size: 10.5px; color: #8A7434; font-weight: 600; }
+  .inst .mo { font-size: 16px; font-weight: 800; color: var(--navy); }
+  .inst .mo small { font-size: 11px; font-weight: 700; color: var(--body); }
+
+  /* ---- specs as attraction signs ---- */
+  .specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+  .spec {
+    text-align: center; padding: 12px 6px 10px; border-radius: 14px;
+    background: linear-gradient(180deg, #FFFFFF, #F6F1E4);
+    border: 1px solid #E9DFC6;
+  }
+  .spec svg { width: 19px; height: 19px; margin-bottom: 5px; }
+  .spec b { display: block; font-size: 13.5px; font-weight: 800; color: var(--navy); }
+  .spec span { display: block; font-size: 10px; color: var(--body); font-weight: 600; }
+
+  /* ---- why (gold stars) ---- */
+  .why li { display: flex; gap: 9px; align-items: flex-start; font-size: 12.5px; line-height: 1.55; margin-bottom: 9px; color: #333654; }
+  .why li:last-child { margin-bottom: 0; }
+  .why .st { flex-shrink: 0; width: 17px; height: 17px; margin-top: 1px; }
+
+  /* ---- compare ---- */
+  .row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px dashed #E7DCC2; }
+  .row:last-child { border: 0; padding-bottom: 0; }
+  .row .nm { flex: 1; font-size: 12px; font-weight: 700; line-height: 1.45; color: var(--ink); }
+  .row .nm small { display: block; font-weight: 600; color: var(--body); font-size: 10.5px; }
+  .row .pr { font-family: "Inter"; font-weight: 800; font-size: 13.5px; color: var(--navy); }
+  .row.this {
+    background: linear-gradient(120deg, #FFF3D6, #FFE9C9); margin: 0 -8px; padding: 11px 9px;
+    border-radius: 13px; border: 1px solid #EBD39A;
+  }
+  .row.this .pr { color: var(--red); }
+  .badge-this {
+    font-size: 9.5px; font-weight: 800; color: #2A2208;
+    background: linear-gradient(160deg, #FBE7B0, var(--gold)); border-radius: 20px; padding: 3px 8px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="sky">
+    <!-- stars -->
+    <svg class="stars" viewBox="0 0 390 300" fill="#fff">
+      <g opacity=".85">
+        <circle cx="24" cy="54" r="1.3"/><circle cx="72" cy="28" r="1"/><circle cx="118" cy="66" r="1.5"/>
+        <circle cx="168" cy="22" r="1"/><circle cx="214" cy="58" r="1.2"/><circle cx="262" cy="30" r="1"/>
+        <circle cx="308" cy="70" r="1.4"/><circle cx="352" cy="40" r="1"/><circle cx="46" cy="104" r="1"/>
+        <circle cx="140" cy="118" r="1.1"/><circle cx="236" cy="104" r="1"/><circle cx="330" cy="126" r="1.2"/>
+        <circle cx="90" cy="160" r="1"/><circle cx="300" cy="178" r="1"/><circle cx="196" cy="150" r="1.1"/>
+      </g>
+    </svg>
+    <!-- fireworks -->
+    <svg class="fw" viewBox="0 0 390 300" fill="none" stroke-linecap="round">
+      <g stroke="#FFE3A6" opacity=".9">
+        <g transform="translate(64,62)">
+          <path d="M0-26V-12M0 26V12M-26 0H-12M26 0H12M-18-18l8 8M18-18l-8 8M-18 18l8-8M18 18l-8-8" stroke-width="2.2"/>
+          <circle cx="0" cy="0" r="2.6" fill="#FFD98A" stroke="none"/>
+        </g>
+      </g>
+      <g stroke="#BFE2FF" opacity=".75">
+        <g transform="translate(320,96)">
+          <path d="M0-20V-9M0 20V9M-20 0H-9M20 0H9M-14-14l6 6M14-14l-6 6M-14 14l6-6M14 14l-6-6" stroke-width="2"/>
+          <circle cx="0" cy="0" r="2.2" fill="#9FD3FF" stroke="none"/>
+        </g>
+      </g>
+      <g stroke="#FFD2EA" opacity=".7">
+        <g transform="translate(212,44)">
+          <path d="M0-15V-7M0 15V7M-15 0H-7M15 0H7M-11-11l5 5M11-11l-5 5M-11 11l5-5M11 11l-5-5" stroke-width="1.8"/>
+        </g>
+      </g>
+    </svg>
+
+    <div class="topbar">
+      <div class="store">
+        <div class="crest"><img src="../assets/logo.jpeg" alt=""></div>
+        <div><b>أسواق القاهرة للمبيعات</b><span>مصر الجديدة</span></div>
+      </div>
+      <div class="locator">📍 القسم 3 · الصف 2</div>
+    </div>
+
+    <div class="marquee">
+      <div class="bulbs"></div>
+      <div class="frame">
+        <span class="ribbon">متوفرة في الفرع</span>
+        <img src="tv.jpg" alt="LG 65QNED86T6A">
+      </div>
+    </div>
+    <div class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+
+    <!-- castle skyline -->
+    <svg class="castle" viewBox="0 0 390 96" preserveAspectRatio="none" style="height:96px">
+      <defs>
+        <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2A1B55"/><stop offset="100%" stop-color="#160F3A"/>
+        </linearGradient>
+      </defs>
+      <g fill="url(#cg)">
+        <path d="M0 96V74h18l6-16 6 16h16V62h22v12h14l8-20 8 20h12V54h10l10-26 10 26h10v20h12l8-22 8 22h14V58h20v16h16l7-18 7 18h18V66h22v8h14l6-14 6 14h16V78h20v18z"/>
+      </g>
+      <g fill="#E0B457" opacity=".9">
+        <circle cx="195" cy="24" r="2.6"/><circle cx="118" cy="50" r="2"/><circle cx="272" cy="52" r="2"/>
+        <rect x="192" y="44" width="6" height="9" rx="3"/><rect x="115" y="66" width="5" height="8" rx="2.5"/>
+        <rect x="269" y="68" width="5" height="8" rx="2.5"/><rect x="54" y="80" width="4.5" height="7" rx="2.2"/>
+        <rect x="330" y="80" width="4.5" height="7" rx="2.2"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="wrap">
+
+    <div class="card">
+      <div class="chips">
+        <span class="chip brand">LG</span>
+        <span class="chip">شاشات و تليفزيونات</span>
+        <span class="chip stock">● متوفرة في الفرع</span>
+      </div>
+      <h1>شاشة إل جي 65 بوصة QNED سمارت 4K</h1>
+      <div class="model">MODEL · 65QNED86T6A</div>
+
+      <div class="ticket">
+        <div class="t-label">سعر الكاش</div>
+        <div class="cash">
+          <span class="val">71,248</span><span class="cur">جنيه</span>
+          <span class="save">وفّر 3,751</span>
+        </div>
+        <div class="inst">
+          <div>
+            <div class="lbl">بالتقسيط</div>
+            <div class="total">الإجمالي 74,999 جنيه</div>
+          </div>
+          <div class="mo"><span class="num">6,250</span> <small>جنيه / شهر × 12</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="#E0B457" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8"/></svg> المواصفات الأساسية</h2>
+      <div class="specs">
+        <div class="spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#16205A" stroke-width="1.9" stroke-linecap="round"><path d="M3 9V4h5M21 15v5h-5M21 9V4h-5M3 15v5h5"/></svg>
+          <b class="num">65</b><span>بوصة</span>
+        </div>
+        <div class="spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#16205A" stroke-width="1.9" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M7 12h10"/></svg>
+          <b class="num">4K</b><span class="num" style="font-weight:600">3840×2160</span>
+        </div>
+        <div class="spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#16205A" stroke-width="1.9" stroke-linecap="round"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5.5 5.5 0 0 1 7 0"/><circle cx="12" cy="19" r="1.2" fill="#16205A"/></svg>
+          <b>سمارت</b><span>WebOS</span>
+        </div>
+        <div class="spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#16205A" stroke-width="1.9" stroke-linecap="round"><path d="M12 3l7.5 3v6c0 4.4-3.1 7.9-7.5 9-4.4-1.1-7.5-4.6-7.5-9V6z"/><path d="M9.3 12.2l1.9 1.9 3.6-3.6"/></svg>
+          <b>عامين</b><span>ضمان</span>
+        </div>
+        <div class="spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#16205A" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 7V4h8v3"/></svg>
+          <b class="num">4</b><span>HDMI · 2 USB</span>
+        </div>
+        <div class="spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#16205A" stroke-width="1.9" stroke-linecap="round"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg>
+          <b>مصر</b><span>بلد الصنع</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card why">
+      <h2><svg viewBox="0 0 24 24" fill="#E0B457"><path d="M12 2.6l2.7 5.8 6.3.8-4.7 4.4 1.2 6.2L12 16.7 6.5 19.8l1.2-6.2L3 9.2l6.3-.8z"/></svg> ليه تختار الشاشة دي؟</h2>
+      <ul>
+        <li><svg class="st" viewBox="0 0 24 24" fill="#E0B457"><path d="M12 2.6l2.7 5.8 6.3.8-4.7 4.4 1.2 6.2L12 16.7 6.5 19.8l1.2-6.2L3 9.2l6.3-.8z"/></svg> ألوان QNED بتقنية Quantum Dot، أنقى وأوضح من الشاشات العادية</li>
+        <li><svg class="st" viewBox="0 0 24 24" fill="#E0B457"><path d="M12 2.6l2.7 5.8 6.3.8-4.7 4.4 1.2 6.2L12 16.7 6.5 19.8l1.2-6.2L3 9.2l6.3-.8z"/></svg> معالج α8 AI بيحوّل أي فيلم أو ماتش لجودة قريبة من 4K</li>
+        <li><svg class="st" viewBox="0 0 24 24" fill="#E0B457"><path d="M12 2.6l2.7 5.8 6.3.8-4.7 4.4 1.2 6.2L12 16.7 6.5 19.8l1.2-6.2L3 9.2l6.3-.8z"/></svg> ريسيفر داخلي، مش محتاج ريسيفر منفصل</li>
+        <li><svg class="st" viewBox="0 0 24 24" fill="#E0B457"><path d="M12 2.6l2.7 5.8 6.3.8-4.7 4.4 1.2 6.2L12 16.7 6.5 19.8l1.2-6.2L3 9.2l6.3-.8z"/></svg> مناسبة لأوضة معيشة من 3.5 لـ 5 متر</li>
+        <li><svg class="st" viewBox="0 0 24 24" fill="#E0B457"><path d="M12 2.6l2.7 5.8 6.3.8-4.7 4.4 1.2 6.2L12 16.7 6.5 19.8l1.2-6.2L3 9.2l6.3-.8z"/></svg> للجيمنج: HDMI 2.1 و AMD FreeSync للبلايستيشن 5</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="#E0B457" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M4 17h10M17 4l3 3-3 3M17 14l3 3-3 3"/></svg> قارن مع 65 بوصة تانية عندنا</h2>
+      <div class="row this">
+        <span class="badge-this">دي</span>
+        <div class="nm">إل جي QNED86 <small>65QNED86T6A · QNED</small></div>
+        <div class="pr">71,248</div>
+      </div>
+      <div class="row">
+        <div class="nm">إل جي QNED85 مينى ليد <small>65QNED85B6T · أرخص بـ 16,349</small></div>
+        <div class="pr">54,899</div>
+      </div>
+      <div class="row">
+        <div class="nm">سامسونج Neo QLED <small>65QN80F · أرخص بـ 20,099</small></div>
+        <div class="pr">51,149</div>
+      </div>
+      <div class="row">
+        <div class="nm">إل جي OLED B6 <small>OLED65B66LA · أرخص بـ 11,249</small></div>
+        <div class="pr">59,999</div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

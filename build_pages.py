@@ -282,9 +282,10 @@ def page_html(code, products):
     rows.append((f"المقاس ({size_unit(family)})", [size_of(products[c], family) for c in cols], None,
                  lambda v: f'<span class="n">{fmt(v)}</span>'))
     perfs = [performance_of(products[c], family) for c in cols]
-    if any(x["value"] for x in perfs):
-        rows.append((perf["label"], [x["value"] for x in perfs], "high",
-                     lambda v, texts=[x["text"] for x in perfs]: ""))
+    if any(x["text"] != "—" for x in perfs):
+        # numeric perf (suction, spin speed) can be ranked; text perf (panel type) just shown
+        ranked = "high" if any(x["value"] for x in perfs) else None
+        rows.append((perf["label"], [x["value"] for x in perfs], ranked, None))
     rows.append(("الضمان (سنة)", [warranty_years(products[c]) for c in cols], "high",
                  lambda v: f'<span class="n">{fmt(v)}</span>'))
     if value:
@@ -303,12 +304,13 @@ def page_html(code, products):
     for label, values, better, render in rows:
         best = None
         numeric = [v for v in values if isinstance(v, (int, float))]
-        if better and len(numeric) > 1:
+        # only flag a winner when the values actually differ
+        if better and len(set(numeric)) > 1:
             best = min(numeric) if better == "low" else max(numeric)
         cells = []
         for i, v in enumerate(values):
-            if label == perf["label"] and better == "high":
-                text = perfs[i]["text"]
+            if label == perf["label"]:
+                text = e(perfs[i]["text"])
             elif isinstance(v, (int, float)):
                 text = f'<span class="n">{fmt(v)}</span>'
             else:

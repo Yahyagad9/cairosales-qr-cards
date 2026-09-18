@@ -23,12 +23,15 @@ USER_AGENT = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.3
 
 def grab(url, out):
     tmp = out.with_suffix(".png")
-    subprocess.run(
-        [CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars",
-         "--virtual-time-budget=12000", f"--user-agent={USER_AGENT}",
-         f"--screenshot={tmp}", "--window-size=1000,1000", url],
-        capture_output=True, timeout=90,
-    )
+    try:
+        subprocess.run(
+            [CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars",
+             "--virtual-time-budget=12000", f"--user-agent={USER_AGENT}",
+             f"--screenshot={tmp}", "--window-size=1000,1000", url],
+            capture_output=True, timeout=90,
+        )
+    except subprocess.TimeoutExpired:
+        return False  # retried on the next run
     if not tmp.exists():
         return False
     Image.open(tmp).convert("RGB").crop((250, 250, 750, 750)).save(out, quality=92)

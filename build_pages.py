@@ -219,6 +219,8 @@ h1 { font-family: "Naskh", serif; font-size: 27px; font-weight: 700; line-height
 .pay .tip { font-size: 10px; font-weight: 700; color: var(--muted); margin-top: 6px; }
 .pay .cash .tip { color: var(--leaf); }
 .pay .opt:only-child { grid-column: 1 / -1; }
+.paynote { margin: 10px 20px 0; background: rgba(92,127,88,.1); border: 1px solid rgba(92,127,88,.25); border-radius: 12px; padding: 11px 13px; font-size: 11.5px; font-weight: 600; color: var(--ink-soft); line-height: 1.7; }
+.paynote b { font-weight: 800; color: var(--ink); }
 .soldout { margin: 16px 20px 0; padding: 15px 16px; border-radius: 14px; background: rgba(217,119,87,.1); border: 1px solid rgba(217,119,87,.28); }
 .soldout b { display: block; font-family: "Naskh", serif; font-size: 16px; color: var(--clay-deep); margin-bottom: 5px; }
 .soldout span { font-size: 12px; font-weight: 600; color: var(--ink-soft); line-height: 1.7; }
@@ -488,9 +490,10 @@ def page_html(code, products):
       {f"""<div class="opt">
         <div class="k">تقسيط {INSTALMENT_MONTHS} شهر</div>
         <div class="v"><span class="n">{fmt(monthly)}</span> <small>جنيه / شهر</small></div>
-        <div class="tip">الإجمالي <span class="n">{fmt(inst)}</span> جنيه</div>
+        <div class="tip">الإجمالي <span class="n">{fmt(inst)}</span> جنيه · أغلى بـ <span class="n">{fmt(saving)}</span></div>
       </div>""" if has_inst else ''}
-    </div>"""
+    </div>
+    {f'<div class="paynote">لو دفعت <b>كاش</b> هتدفع <b class="n">{fmt(price)}</b> جنيه بدل <b class="n">{fmt(inst)}</b>، يعني <b>توفّر <span class="n">{fmt(saving)}</span> جنيه</b> ({saving_pct}%) على نفس المنتج.</div>' if has_inst else ''}"""
     else:
         money = """
     <div class="money">

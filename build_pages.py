@@ -171,169 +171,306 @@ CSS = """
 @font-face { font-family: "Cairo"; src: url("../assets/Cairo.ttf"); font-weight: 200 1000; }
 @font-face { font-family: "Inter"; src: url("../assets/Inter.ttf"); font-weight: 100 900; }
 :root {
-  --red: #D71F2B; --ink: #0F1216; --body: #656E7A; --line: #E9ECF0;
-  --bg: #F2F4F7; --green: #0E8A4F;
+  --red: #D71F2B; --ink: #0E1116; --ink-2: #1B2029; --body: #6B7480; --line: #E7EAEF;
+  --bg: #EFF1F5; --green: #0E8A4F; --amber: #B7791F;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { background: var(--bg); font-family: "Cairo", system-ui, sans-serif; color: var(--ink); }
-.page { max-width: 480px; margin: 0 auto; background: var(--bg); min-height: 100vh; }
+body { background: var(--bg); font-family: "Cairo", system-ui, sans-serif; color: var(--ink); padding: 0 0 22px; }
+.sheet { max-width: 460px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 40px rgba(14,17,22,.07); }
 .n { font-family: "Inter", sans-serif; direction: ltr; unicode-bidi: isolate; }
 img { max-width: 100%; display: block; }
 
+/* ---------- identity band ---------- */
+.band { background: var(--ink); color: #fff; padding: 16px 18px 20px; position: relative; overflow: hidden; }
+.band::after { content: ""; position: absolute; inset-inline-end: -60px; top: -80px; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(215,31,43,.34), transparent 65%); }
+.band .line { display: flex; align-items: center; justify-content: space-between; gap: 10px; position: relative; z-index: 1; }
+.band .store { display: flex; align-items: center; gap: 8px; font-size: 10.5px; font-weight: 700; color: #A8B1BD; }
+.band .store img { width: 26px; height: 26px; border-radius: 50%; background: #fff; }
+.stock { font-size: 10.5px; font-weight: 800; border-radius: 30px; padding: 5px 11px; background: rgba(16,185,129,.16); color: #4ADE80; white-space: nowrap; }
+.stock.out { background: rgba(239,68,68,.18); color: #FCA5A5; }
+.band h1 { font-size: 21px; font-weight: 800; line-height: 1.4; margin-top: 14px; position: relative; z-index: 1; }
+.band .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; position: relative; z-index: 1; }
+.band .meta span { font-size: 10.5px; font-weight: 700; color: #C9D1DB; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: 7px; padding: 4px 9px; }
+.band .meta .brand { font-family: "Inter"; font-weight: 800; background: #fff; color: var(--ink); border-color: #fff; }
+
+/* ---------- photo ---------- */
+.shot { padding: 18px 24px 8px; background: linear-gradient(180deg, #fff, #F7F8FA); }
+
+/* ---------- price ---------- */
+.money { padding: 4px 18px 18px; background: linear-gradient(180deg, #F7F8FA, #fff); }
+.money .row { display: flex; align-items: flex-end; gap: 10px; }
+.money .cash { font-family: "Inter"; font-weight: 900; font-size: 38px; letter-spacing: -1.2px; color: var(--red); line-height: 1; }
+.money .cur { font-size: 13px; font-weight: 800; color: var(--red); margin-bottom: 4px; }
+.money .lbl { font-size: 10.5px; font-weight: 800; color: var(--body); letter-spacing: .5px; margin-bottom: 4px; }
+.money .inst { margin-inline-start: auto; text-align: left; }
+.money .inst b { font-family: "Inter"; font-weight: 800; font-size: 16px; display: block; }
+.money .inst span { font-size: 10px; font-weight: 700; color: var(--body); }
+.soldout { margin: 4px 0 0; padding: 14px 15px; border-radius: 13px; background: #FDF1F2; border: 1px solid #F6D7DA; }
+.soldout b { display: block; font-size: 14px; font-weight: 800; color: var(--red); margin-bottom: 4px; }
+.soldout span { font-size: 12px; font-weight: 600; color: #7A4247; line-height: 1.6; }
+
+/* ---------- sections ---------- */
+section { padding: 18px; border-top: 8px solid var(--bg); }
+h2 { font-size: 12.5px; font-weight: 800; letter-spacing: .3px; display: flex; align-items: center; gap: 7px; margin-bottom: 14px; }
+h2::before { content: ""; width: 3px; height: 13px; border-radius: 3px; background: var(--red); }
+h2 small { margin-inline-start: auto; font-size: 10px; font-weight: 600; color: var(--body); letter-spacing: 0; }
+
+/* stat tiles */
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.stat { border: 1px solid var(--line); border-radius: 13px; padding: 12px; background: #fff; }
+.stat .k { font-size: 10.5px; font-weight: 700; color: var(--body); }
+.stat .v { font-size: 19px; font-weight: 800; margin-top: 5px; line-height: 1.1; }
+.stat .v small { font-size: 11px; font-weight: 700; color: var(--body); }
+.stat .note { font-size: 10px; font-weight: 700; margin-top: 5px; }
+.up { color: var(--red); } .down { color: var(--green); } .flat { color: var(--body); }
+
+/* price position meter */
+.meter { margin-top: 14px; }
+.meter .track { position: relative; height: 8px; border-radius: 6px; background: linear-gradient(90deg, #E6F5ED, #FDECEE); }
+.meter .dot { position: absolute; top: -4px; width: 16px; height: 16px; border-radius: 50%; background: var(--red); border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.22); transform: translateX(50%); }
+.meter .ends { display: flex; justify-content: space-between; margin-top: 7px; font-size: 10px; font-weight: 700; color: var(--body); }
+.meter .cap { font-size: 10.5px; font-weight: 700; color: var(--body); margin-bottom: 8px; }
+
+/* comparison */
+.cmp { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+.cmp th, .cmp td { padding: 9px 5px; text-align: center; border-bottom: 1px solid var(--line); }
+.cmp thead th { font-weight: 800; font-size: 10.5px; line-height: 1.35; vertical-align: bottom; }
+.cmp thead th small { display: block; font-weight: 600; color: var(--body); font-size: 9px; margin-top: 2px; }
+.cmp tbody th { text-align: right; font-weight: 700; color: var(--body); font-size: 10.5px; white-space: nowrap; }
+.cmp td { font-weight: 700; }
+.cmp .me { background: #FFF6F6; }
+.cmp .best { color: var(--green); font-weight: 800; }
+.cmp .best::after { content: " ✓"; font-size: 9px; }
+.mytag { display: inline-block; font-size: 9px; font-weight: 800; color: #fff; background: var(--red); border-radius: 20px; padding: 2px 7px; margin-bottom: 4px; }
+.legend { margin-top: 10px; font-size: 10px; color: var(--body); font-weight: 600; line-height: 1.6; }
+
+/* facts + specs */
+.facts { display: flex; flex-wrap: wrap; gap: 7px; }
+.facts span { font-size: 11px; font-weight: 700; background: #F3F5F8; border-radius: 8px; padding: 6px 10px; }
+.about { font-size: 12.5px; line-height: 1.85; color: #2C333C; margin-top: 12px; }
+.sp { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.sp:last-child { border: 0; padding-bottom: 0; }
+.sp:first-of-type { padding-top: 0; }
+.sp .k { flex: 1; font-size: 11.5px; font-weight: 600; color: var(--body); }
+.sp .v { font-size: 12.5px; font-weight: 800; text-align: left; }
+
+.note-foot { padding: 16px 18px 6px; text-align: center; font-size: 10px; color: var(--body); font-weight: 600; line-height: 1.8; }
+.note-foot b { font-family: "Inter"; color: var(--ink); }
+
+/* index */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; padding: 16px; }
+.item { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 10px; text-decoration: none; color: inherit; }
+.item img { border-radius: 9px; margin-bottom: 8px; }
+.item b { display: block; font-size: 11.5px; font-weight: 700; line-height: 1.4; height: 32px; overflow: hidden; }
+.item .p { font-family: "Inter"; font-weight: 800; font-size: 13px; color: var(--red); margin-top: 6px; }
+.page { max-width: 460px; margin: 0 auto; background: #fff; min-height: 100vh; }
 .top { background: var(--ink); color: #fff; padding: 13px 18px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .brandline { display: flex; align-items: center; gap: 9px; }
 .brandline img { width: 34px; height: 34px; border-radius: 50%; background: #fff; }
 .brandline b { font-size: 13.5px; font-weight: 800; }
 .brandline span { display: block; font-size: 10px; color: #98A1AD; font-weight: 600; }
 .where { font-size: 10.5px; font-weight: 700; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.16); border-radius: 8px; padding: 6px 9px; white-space: nowrap; }
-
-.stage { position: relative; background: #fff; padding: 18px 18px 24px; overflow: hidden; border-bottom: 1px solid var(--line); }
-.stage::before { content: ""; position: absolute; top: -130px; inset-inline-start: -70px; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle at 40% 60%, rgba(215,31,43,.1), rgba(215,31,43,0) 70%); }
-.stage img { position: relative; width: 100%; }
-.tags { position: absolute; top: 16px; inset-inline-end: 18px; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
-.tag { font-size: 10.5px; font-weight: 800; border-radius: 7px; padding: 5px 9px; background: #ECF7F1; color: var(--green); }
-.tag.grey { background: #F2F4F7; color: var(--body); }
-.tag.out { background: #FDECEE; color: var(--red); }
-
 .wrap { padding: 16px 14px 26px; }
 .card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
-.card h2 { font-size: 13px; font-weight: 800; display: flex; align-items: center; gap: 7px; margin-bottom: 13px; }
-.card h2::before { content: ""; width: 3px; height: 14px; border-radius: 3px; background: var(--red); }
-
-.kicker { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; flex-wrap: wrap; }
-.kicker .bd { font-family: "Inter"; font-weight: 900; font-size: 13px; color: #fff; background: var(--ink); border-radius: 6px; padding: 3px 8px; }
-.kicker span { font-size: 11px; font-weight: 700; color: var(--body); }
-h1 { font-size: 20px; font-weight: 800; line-height: 1.4; }
+.kicker { font-size: 11px; font-weight: 700; color: var(--body); margin-bottom: 8px; }
 .sub { margin-top: 6px; font-size: 11.5px; font-weight: 600; color: var(--body); }
 .sub b { font-family: "Inter"; font-weight: 700; color: var(--ink); }
-
-.price { margin-top: 14px; padding: 14px 15px; border-radius: 13px; background: linear-gradient(180deg, #FFF7F7, #fff); border: 1px solid #F6DDDF; }
-.price .lbl { font-size: 10.5px; font-weight: 800; color: var(--body); letter-spacing: .6px; }
-.amount { display: flex; align-items: baseline; gap: 6px; margin-top: 2px; flex-wrap: wrap; }
-.amount .v { font-family: "Inter"; font-weight: 900; font-size: 34px; letter-spacing: -1px; color: var(--red); }
-.amount .c { font-size: 14px; font-weight: 800; color: var(--red); }
-.amount .save { margin-inline-start: auto; font-size: 10.5px; font-weight: 800; color: var(--green); background: #ECF7F1; border-radius: 7px; padding: 4px 8px; }
-.split { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; padding-top: 11px; border-top: 1px solid #F1E2E3; }
-.split .l { font-size: 11.5px; font-weight: 700; color: var(--body); }
-.split .l small { display: block; font-weight: 600; font-size: 10px; color: #94A0AD; margin-top: 2px; }
-.split .r b { font-family: "Inter"; font-weight: 800; font-size: 17px; }
-.split .r span { font-size: 10.5px; font-weight: 700; color: var(--body); }
-
-.sp { display: flex; align-items: center; gap: 11px; padding: 10px 0; border-bottom: 1px solid var(--line); }
-.sp:last-child { border: 0; padding-bottom: 0; }
-.sp:first-of-type { padding-top: 0; }
-.sp .k { flex: 1; font-size: 12px; font-weight: 600; color: var(--body); }
-.sp .v { font-size: 13px; font-weight: 800; text-align: left; }
-
-.hl li { position: relative; padding-inline-start: 17px; font-size: 12.5px; line-height: 1.65; color: #2C333C; margin-bottom: 8px; list-style: none; }
-.hl li:last-child { margin-bottom: 0; }
-.about { font-size: 12.5px; line-height: 1.85; color: #2C333C; }
-.hl li::before { content: ""; position: absolute; inset-inline-start: 0; top: 8px; width: 7px; height: 7px; border-radius: 2px; background: var(--red); }
-
-/* comparison table */
-.cmp { width: 100%; border-collapse: collapse; font-size: 11.5px; }
-.cmp th, .cmp td { padding: 9px 6px; text-align: center; border-bottom: 1px solid var(--line); }
-.cmp th { font-weight: 800; font-size: 11px; line-height: 1.35; vertical-align: bottom; }
-.cmp th small { display: block; font-weight: 600; color: var(--body); font-size: 9.5px; margin-top: 2px; }
-.cmp tbody th { text-align: right; font-weight: 700; color: var(--body); font-size: 11px; white-space: nowrap; }
-.cmp td { font-weight: 700; }
-.cmp .me { background: #FFF6F6; }
-.cmp thead .me { border-top-left-radius: 10px; border-top-right-radius: 10px; }
-.cmp .me .n, .cmp .me { color: var(--ink); }
-.cmp .best { color: var(--green); font-weight: 800; }
-.cmp .best::after { content: " ✓"; font-size: 10px; }
-.mytag { display: inline-block; font-size: 9px; font-weight: 800; color: #fff; background: var(--red); border-radius: 20px; padding: 2px 7px; margin-bottom: 4px; }
-.legend { margin-top: 10px; font-size: 10.5px; color: var(--body); font-weight: 600; line-height: 1.6; }
-
-.soldout { margin-top: 14px; padding: 14px 15px; border-radius: 13px; background: #FDF1F2; border: 1px solid #F6D7DA; }
-.soldout b { display: block; font-size: 14px; font-weight: 800; color: var(--red); margin-bottom: 4px; }
-.soldout span { font-size: 12px; font-weight: 600; color: #7A4247; line-height: 1.6; }
-
-.cta { display: flex; gap: 9px; }
-.cta a { flex: 1; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 7px; border-radius: 13px; padding: 14px 8px; font-size: 12.5px; font-weight: 800; }
-.cta .main { background: var(--red); color: #fff; }
-.cta .alt { background: #fff; color: var(--ink); border: 1.4px solid var(--line); }
-.note { text-align: center; font-size: 10px; color: var(--body); font-weight: 600; margin-top: 12px; line-height: 1.8; }
-.note b { font-family: "Inter"; color: var(--ink); }
-
-/* index */
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.item { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 10px; text-decoration: none; color: inherit; }
-.item img { border-radius: 9px; margin-bottom: 8px; }
-.item b { display: block; font-size: 11.5px; font-weight: 700; line-height: 1.4; height: 32px; overflow: hidden; }
-.item .p { font-family: "Inter"; font-weight: 800; font-size: 13px; color: var(--red); margin-top: 6px; }
 """
+
+def peer_set(code, products, family):
+    """Products of the same family and (when possible) the same size, for ranking."""
+    my_size = size_of(products[code], family)
+    same = [c for c, q in products.items()
+            if family_of(q) == family and price_of(q)]
+    sized = [c for c in same if my_size and size_of(products[c], family) == my_size]
+    return sized if len(sized) >= 3 else same
+
+
+def analysis(code, products, family):
+    """Numbers that help a customer judge the product, all derived from our own data."""
+    p = products[code]
+    price = price_of(p)
+    peers = peer_set(code, products, family)
+    prices = sorted(price_of(products[c]) for c in peers)
+    out = {"peers": len(peers), "min": prices[0] if prices else None,
+           "max": prices[-1] if prices else None}
+
+    if price and prices:
+        cheaper = sum(1 for x in prices if x < price)
+        out["rank"] = cheaper + 1
+        span = (prices[-1] - prices[0]) or 1
+        out["position"] = max(0, min(100, round((price - prices[0]) / span * 100)))
+
+    value = value_row(p, family)
+    if value:
+        peer_values = [v for v in ((value_row(products[c], family) or {}).get("value") for c in peers) if v]
+        if peer_values:
+            avg = sum(peer_values) / len(peer_values)
+            out["value"] = value
+            out["value_avg"] = avg
+            out["value_diff"] = round((value["value"] - avg) / avg * 100)
+
+    inst = num(p["site"].get("price_installment"))
+    if inst and price and inst > price:
+        out["cash_saving"] = inst - price
+        out["cash_saving_pct"] = round((inst - price) / inst * 100)
+
+    years = warranty_years(p)
+    peer_years = [w for w in (warranty_years(products[c]) for c in peers) if w]
+    if years:
+        out["warranty"] = years
+        out["warranty_best"] = bool(peer_years) and years >= max(peer_years) and len(set(peer_years)) > 1
+    return out
 
 
 def page_html(code, products):
     p = products[code]
     s = p["site"]
+    e = html.escape
     family = family_of(p)
     perf = performance_of(p, family)
-    value = value_row(p, family)
     price = price_of(p)
     inst = num(s.get("price_installment")) or price
     monthly = round(inst / INSTALMENT_MONTHS) if inst else None
-    save = int(inst - price) if inst and price and inst > price else 0
-    brand = s.get("brand", "")
-    brand_ar = BRAND_AR.get(brand, brand)
-    others = rivals(code, products, family)
-    e = html.escape
-
-    # comparison table: this product + up to 3 rivals, best value marked per row
-    cols = [code] + others
-    rows = []
-    rows.append(("سعر الكاش", [price_of(products[c]) for c in cols], "low", lambda v: f'<span class="n">{fmt(v)}</span>'))
-    rows.append((f"المقاس ({size_unit(family)})", [size_of(products[c], family) for c in cols], None,
-                 lambda v: f'<span class="n">{fmt(v)}</span>'))
-    perfs = [performance_of(products[c], family) for c in cols]
-    if any(x["text"] != "—" for x in perfs):
-        # numeric perf (suction, spin speed) can be ranked; text perf (panel type) just shown
-        ranked = "high" if any(x["value"] for x in perfs) else None
-        rows.append((perf["label"], [x["value"] for x in perfs], ranked, None))
-    rows.append(("الضمان (سنة)", [warranty_years(products[c]) for c in cols], "high",
-                 lambda v: f'<span class="n">{fmt(v)}</span>'))
-    if value:
-        rows.append((value["label"], [(value_row(products[c], family) or {}).get("value") for c in cols],
-                     value["better"], lambda v: f'<span class="n">{fmt(v)}</span>'))
-
-    head = []
-    for i, c in enumerate(cols):
-        q = products[c]
-        nm = e(BRAND_AR.get(q["site"].get("brand", ""), q["site"].get("brand", "")))
-        head.append(f'<th class="{"me" if i == 0 else ""}">'
-                    + ('<span class="mytag">ده</span><br>' if i == 0 else "")
-                    + f'{nm}<small class="n">{e(q["model"])}</small></th>')
-
-    body = []
-    for label, values, better, render in rows:
-        best = None
-        numeric = [v for v in values if isinstance(v, (int, float))]
-        # only flag a winner when the values actually differ
-        if better and len(set(numeric)) > 1:
-            best = min(numeric) if better == "low" else max(numeric)
-        cells = []
-        for i, v in enumerate(values):
-            if label == perf["label"]:
-                text = e(perfs[i]["text"])
-            elif isinstance(v, (int, float)):
-                text = f'<span class="n">{fmt(v)}</span>'
-            else:
-                text = "—"
-            klass = " ".join(x for x in ["me" if i == 0 else "", "best" if best is not None and v == best else ""] if x)
-            cells.append(f'<td class="{klass}">{text}</td>')
-        body.append(f"<tr><th>{e(label)}</th>{''.join(cells)}</tr>")
-
-    specs = "".join(
-        f'<div class="sp"><div class="k">{e(k)}</div><div class="v">{e(v)}</div></div>'
-        for k, v in spec_rows(p)
-    )
-    bullets = "".join(f"<li>{e(b)}</li>" for b in quick_facts(p, family))
-    about = e(s.get("short_description", "")).strip()
     # Stock rule: a price on the website means we have it; no price means it is finished
     in_stock = bool(price)
-    warranty = s["specs"].get("الضمان")
-    img = f"../img/{code}.jpg" if (DOCS / "img" / f"{code}.jpg").exists() else s["images"][0]
+    a = analysis(code, products, family) if in_stock else {}
+    size = size_of(p, family)
+    specs = s.get("specs", {})
+    img = f"../img/{code}.jpg" if (DOCS / "img" / f"{code}.jpg").exists() else (s.get("images") or [""])[0]
+
+    # ---------- identity chips
+    meta = [f'<span class="brand">{e(s.get("brand") or "")}</span>' if s.get("brand") else ""]
+    if size:
+        meta.append(f'<span>{int(size)} {size_unit(family)}</span>')
+    if perf["text"] != "—":
+        meta.append(f'<span>{e(perf["text"])}</span>')
+    if specs.get("الضمان"):
+        meta.append(f'<span>ضمان {e(specs["الضمان"])}</span>')
+    if specs.get("بلد الصنع"):
+        meta.append(f'<span>صنع في {e(specs["بلد الصنع"])}</span>')
+
+    # ---------- price block
+    if in_stock:
+        money = f"""
+    <div class="money">
+      <div class="row">
+        <div>
+          <div class="lbl">سعر الكاش</div>
+          <div style="display:flex;align-items:flex-end;gap:6px">
+            <span class="cash n">{fmt(price)}</span><span class="cur">جنيه</span>
+          </div>
+        </div>
+        {f'<div class="inst"><b class="n">{fmt(monthly)}</b><span>جنيه × {INSTALMENT_MONTHS} شهر · إجمالي {fmt(inst)}</span></div>' if inst and inst != price else ''}
+      </div>
+    </div>"""
+    else:
+        money = """
+    <div class="money">
+      <div class="soldout">
+        <b>المنتج ده مش متوفر دلوقتي</b>
+        <span>اسأل البائع إمتى هيوصل</span>
+      </div>
+    </div>"""
+
+    # ---------- quick analysis tiles
+    tiles = []
+    if a.get("rank"):
+        tiles.append(f"""<div class="stat"><div class="k">ترتيبه في السعر</div>
+          <div class="v"><span class="n">{a['rank']}</span> <small>من {a['peers']}</small></div>
+          <div class="note flat">من الأرخص للأغلى في نفس المقاس</div></div>""")
+    if a.get("value"):
+        diff = a["value_diff"]
+        klass = "down" if diff < 0 else ("up" if diff > 0 else "flat")
+        word = "أقل من متوسط الفئة" if diff < 0 else ("أعلى من متوسط الفئة" if diff > 0 else "زي متوسط الفئة")
+        tiles.append(f"""<div class="stat"><div class="k">{e(a['value']['label'])}</div>
+          <div class="v n">{a['value']['text']}</div>
+          <div class="note {klass}">{word} بـ <span class="n">{abs(diff)}%</span></div></div>""")
+    if a.get("cash_saving"):
+        tiles.append(f"""<div class="stat"><div class="k">توفير الكاش</div>
+          <div class="v"><span class="n">{fmt(a['cash_saving'])}</span> <small>جنيه</small></div>
+          <div class="note down">أقل من سعر التقسيط بـ <span class="n">{a['cash_saving_pct']}%</span></div></div>""")
+    if a.get("warranty"):
+        tiles.append(f"""<div class="stat"><div class="k">الضمان</div>
+          <div class="v"><span class="n">{int(a['warranty'])}</span> <small>سنة</small></div>
+          <div class="note {'down' if a.get('warranty_best') else 'flat'}">{'الأطول في فئته' if a.get('warranty_best') else 'ضمان الوكيل'}</div></div>""")
+
+    meter = ""
+    if a.get("position") is not None and a.get("min") != a.get("max"):
+        meter = f"""
+      <div class="meter">
+        <div class="cap">سعره بين {a['peers']} منتج بنفس المقاس عندنا</div>
+        <div class="track"><span class="dot" style="inset-inline-start:calc({100 - a['position']}% - 8px)"></span></div>
+        <div class="ends"><span>الأرخص <b class="n">{fmt(a['min'])}</b></span><span>الأغلى <b class="n">{fmt(a['max'])}</b></span></div>
+      </div>"""
+
+    analysis_section = ""
+    if tiles:
+        analysis_section = f"""
+    <section>
+      <h2>تحليل سريع <small>مقارنة بالمعروض عندنا</small></h2>
+      <div class="stats">{''.join(tiles)}</div>
+      {meter}
+    </section>"""
+
+    # ---------- comparison table
+    others = rivals(code, products, family) if in_stock else []
+    table = ""
+    if others:
+        cols = [code] + others
+        rows = [("سعر الكاش", [price_of(products[c]) for c in cols], "low"),
+                (f"المقاس ({size_unit(family)})", [size_of(products[c], family) for c in cols], None)]
+        perfs = [performance_of(products[c], family) for c in cols]
+        if any(x["text"] != "—" for x in perfs):
+            rows.append((perf["label"], [x["value"] for x in perfs],
+                         "high" if any(x["value"] for x in perfs) else None))
+        rows.append(("الضمان (سنة)", [warranty_years(products[c]) for c in cols], "high"))
+        vr = value_row(p, family)
+        if vr:
+            rows.append((vr["label"], [(value_row(products[c], family) or {}).get("value") for c in cols], vr["better"]))
+        rows.append(("التقسيط شهريًا", [round((num(products[c]["site"].get("price_installment")) or price_of(products[c])) / INSTALMENT_MONTHS)
+                                        for c in cols], "low"))
+
+        head = []
+        for i, c in enumerate(cols):
+            q = products[c]
+            nm = e(BRAND_AR.get(q["site"].get("brand", ""), q["site"].get("brand", "")))
+            head.append(f'<th class="{"me" if i == 0 else ""}">'
+                        + ('<span class="mytag">ده</span><br>' if i == 0 else "")
+                        + f'{nm}<small class="n">{e(q["model"])}</small></th>')
+
+        body = []
+        for label, values, better in rows:
+            numeric = [v for v in values if isinstance(v, (int, float))]
+            best = None
+            if better and len(set(numeric)) > 1:
+                best = min(numeric) if better == "low" else max(numeric)
+            cells = []
+            for i, v in enumerate(values):
+                if label == perf["label"]:
+                    cell = e(perfs[i]["text"])
+                elif isinstance(v, (int, float)):
+                    cell = f'<span class="n">{fmt(v)}</span>'
+                else:
+                    cell = "—"
+                klass = " ".join(x for x in ["me" if i == 0 else "", "best" if best is not None and v == best else ""] if x)
+                cells.append(f'<td class="{klass}">{cell}</td>')
+            body.append(f"<tr><th>{e(label)}</th>{''.join(cells)}</tr>")
+
+        table = f"""
+    <section>
+      <h2>مقارنة بأقرب المنتجات عندنا</h2>
+      <table class="cmp">
+        <thead><tr><th></th>{''.join(head)}</tr></thead>
+        <tbody>{''.join(body)}</tbody>
+      </table>
+      <div class="legend">✓ = الأفضل في السطر ده · الأسعار سعر الكاش اليوم</div>
+    </section>"""
+
+    facts = "".join(f"<span>{e(f)}</span>" for f in quick_facts(p, family))
+    about = e(s.get("short_description", "")).strip()
+    spec_list = "".join(f'<div class="sp"><div class="k">{e(k)}</div><div class="v">{e(v)}</div></div>'
+                        for k, v in spec_rows(p))
 
     return f"""<!doctype html>
 <html lang="ar" dir="rtl">
@@ -344,74 +481,29 @@ def page_html(code, products):
 <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
-<div class="page">
+<div class="sheet">
 
-  <div class="top">
-    <div class="brandline">
-      <img src="../assets/logo.jpeg" alt="">
-      <div><b>{STORE['name']}</b><span>{STORE['branch']}</span></div>
+  <div class="band">
+    <div class="line">
+      <div class="store"><img src="../assets/logo.jpeg" alt=""> {STORE['name']} · {STORE['branch']}</div>
+      <span class="stock{'' if in_stock else ' out'}">{'● متوفر في الفرع' if in_stock else '● غير متوفر حاليًا'}</span>
     </div>
-    <div class="where">{e(s.get('category',''))}</div>
+    <h1>{e(clean_title(p))}</h1>
+    <div class="meta">{''.join(meta)}<span class="n">{e(p['model'])}</span></div>
   </div>
 
-  <div class="stage">
-    <div class="tags">
-      <span class="tag{'' if in_stock else ' out'}">● {'متوفر في الفرع' if in_stock else 'غير متوفر حاليًا'}</span>
-      {f'<span class="tag grey">ضمان {e(warranty)}</span>' if warranty else ''}
-    </div>
-    <img src="{img}" alt="{e(p['model'])}">
-  </div>
+  {f'<div class="shot"><img src="{img}" alt="{e(p["model"])}"></div>' if img else ''}
+  {money}
+  {analysis_section}
+  {table}
 
-  <div class="wrap">
+  {f'<section><h2>باختصار</h2><div class="facts">{facts}</div>{f"<p class=\'about\'>{about}</p>" if about else ""}</section>' if facts or about else ''}
 
-    <div class="card">
-      <div class="kicker">
-        <span class="bd">{e(brand or '—')}</span>
-        <span>{e(brand_ar)} · {e(s.get('category',''))}</span>
-      </div>
-      <h1>{e(clean_title(p))}</h1>
-      <div class="sub">الموديل <b>{e(p['model'])}</b></div>
+  <section><h2>المواصفات الكاملة</h2>{spec_list}</section>
 
-      {f"""<div class="soldout">
-        <b>المنتج ده مش متوفر دلوقتي</b>
-        <span>اسأل البائع إمتى هيوصل، أو كلّمنا على {STORE['hotline']}</span>
-      </div>""" if not in_stock else f'''<div class="price">
-        <div class="lbl">سعر الكاش</div>
-        <div class="amount">
-          <span class="v n">{fmt(price)}</span><span class="c">جنيه</span>
-          {f'<span class="save">وفّر {fmt(save)}</span>' if save else ''}
-        </div>
-        {f"""<div class="split">
-          <div class="l">بالتقسيط<small>الإجمالي {fmt(inst)} جنيه</small></div>
-          <div class="r"><b class="n">{fmt(monthly)}</b> <span>جنيه × {INSTALMENT_MONTHS} شهر</span></div>
-        </div>""" if inst and inst != price else ''}
-      </div>'''}
-    </div>
-
-    {f'<div class="card hl"><h2>باختصار</h2><ul>{bullets}</ul></div>' if bullets else ''}
-
-    {f'<div class="card"><h2>نبذة عن المنتج</h2><p class="about">{about}</p></div>' if about else ''}
-
-    <div class="card"><h2>المواصفات الكاملة</h2>{specs}</div>
-
-    {f'''<div class="card">
-      <h2>قارن مع اللي عندنا في الفرع</h2>
-      <table class="cmp">
-        <thead><tr><th></th>{''.join(head)}</tr></thead>
-        <tbody>{''.join(body)}</tbody>
-      </table>
-      <div class="legend">✓ = الأفضل في السطر ده · الأسعار سعر الكاش اليوم</div>
-    </div>''' if others else ''}
-
-    <div class="cta">
-      <a class="main" href="{e(s.get('short_url',''))}">شوف المنتج على موقعنا</a>
-      <a class="alt" href="tel:{STORE['hotline']}">اتصل بنا {STORE['hotline']}</a>
-    </div>
-
-    <div class="note">
-      الأسعار شاملة الضريبة · التوصيل والتركيب مجانًا داخل القاهرة<br>
-      آخر تحديث للأسعار <b class="n">{date.today().isoformat()}</b> · الخط الساخن <b>{STORE['hotline']}</b>
-    </div>
+  <div class="note-foot">
+    الأسعار شاملة الضريبة · التوصيل والتركيب مجانًا داخل القاهرة<br>
+    آخر تحديث للأسعار <b class="n">{date.today().isoformat()}</b>
   </div>
 </div>
 </body>
@@ -489,14 +581,10 @@ def minimal_page(code, item):
       <div class="sub">الموديل <b>{e(item.get('model',''))}</b></div>
       <div class="soldout">
         <b>المنتج ده مش متوفر دلوقتي</b>
-        <span>اسأل البائع إمتى هيوصل، أو كلّمنا على {STORE['hotline']}</span>
+        <span>اسأل البائع إمتى هيوصل</span>
       </div>
     </div>
-    <div class="cta">
-      <a class="main" href="https://cairosales.com/ar/">تصفّح موقعنا</a>
-      <a class="alt" href="tel:{STORE['hotline']}">اتصل بنا {STORE['hotline']}</a>
-    </div>
-    <div class="note">الخط الساخن <b>{STORE['hotline']}</b> · آخر تحديث <b class="n">{date.today().isoformat()}</b></div>
+    <div class="note">آخر تحديث <b class="n">{date.today().isoformat()}</b></div>
   </div>
 </div>
 </body>

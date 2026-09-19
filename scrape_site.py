@@ -19,6 +19,7 @@ The site sits behind Cloudflare, which blocks plain HTTP clients, so pages are l
 with headless Google Chrome, one at a time, with a pause between requests.
 """
 import csv
+import difflib
 import json
 import re
 import subprocess
@@ -36,6 +37,7 @@ RAW = DATA / "raw"
 ITEMS = DATA / "items.csv"
 PRODUCTS_JSON = DATA / "products.json"
 PRODUCTS_CSV = DATA / "products.csv"
+CATALOG = DATA / "catalog.json"
 
 SITE = "https://cairosales.com"
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -184,6 +186,47 @@ def save_products(products):
                        + [s.get("specs", {}).get(k, "") for k in spec_keys])
 
 
+def models_match(mine, theirs):
+    """Same model allowing for punctuation and a missing prefix/suffix letter."""
+    a, b = norm_model(mine), norm_model(theirs)
+    if not a or not b:
+        return False
+    return a == b or (len(min(a, b, key=len)) >= 5 and (a in b or b in a))
+
+
+def model_tokens(model):
+    """Distinctive pieces of a model number: digit runs and longer letter runs."""
+    low = model.lower()
+    return [t for t in re.findall(r"\d{3,}|[a-z]{4,}", low)]
+
+
+def catalog_urls(model, limit=5):
+    """Best candidates from the crawled index, by model appearing in the URL slug."""
+    if not CATALOG.exists():
+        return []
+    catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
+    key = norm_model(model)
+    if len(key) < 4:
+        return []
+    tokens = model_tokens(model)
+    scored = []
+    for url in catalog:
+        slug = norm_model(url.rsplit("/", 1)[-1].replace(".html", ""))
+        if key in slug:
+            score = 1.0
+        elif tokens and any(t in slug for t in tokens):
+            # model written differently (missing prefix, extra letters): compare the tail
+            tail = slug[-(len(key) + 8):]
+            score = difflib.SequenceMatcher(None, key, tail).ratio()
+            if score < 0.5:
+                continue
+        else:
+            continue
+        scored.append((-score, len(slug), url))
+    scored.sort()
+    return [u for _, _, u in scored[:limit]]
+
+
 def scrape_item(item, reparse=False):
     code, model = item["code"], item["model"]
     raw = RAW / f"{code}.html"
@@ -191,14 +234,17 @@ def scrape_item(item, reparse=False):
               "scraped_at": datetime.now().isoformat(timespec="seconds")}
 
     if not reparse:
-        urls = search(model)
+        # the category index is reliable; the site search is the fallback
+        urls = catalog_urls(model)
+        urls += [u for u in search(model) if u not in urls]
         if not urls:
             return {**record, "status": "not_found", "site": None}
         match = None
         for url in urls[:5]:
             html = fetch(url)
             site = parse_product(html)
-            if norm_model(model) in (norm_model(site["reference"]), norm_model(site["specs"].get("الموديل", ""))):
+            if (models_match(model, site["reference"])
+                    or models_match(model, site["specs"].get("الموديل", ""))):
                 match = html
                 break
         if match is None:

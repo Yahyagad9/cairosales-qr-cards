@@ -210,6 +210,15 @@ h1 { font-family: "Naskh", serif; font-size: 27px; font-weight: 700; line-height
 .money .cur { font-size: 13px; font-weight: 700; color: var(--muted); }
 .money .inst { margin-inline-start: auto; text-align: left; font-size: 10.5px; font-weight: 600; color: var(--muted); line-height: 1.7; }
 .money .inst b { font-family: "Inter"; font-weight: 800; font-size: 15px; color: var(--ink); }
+.pay { margin: 16px 20px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pay .opt { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 13px 14px; }
+.pay .opt.cash { background: rgba(217,119,87,.1); border-color: rgba(217,119,87,.3); }
+.pay .k { font-size: 10.5px; font-weight: 700; color: var(--muted); }
+.pay .v { font-family: "Inter"; font-weight: 800; font-size: 25px; letter-spacing: -1px; margin-top: 5px; line-height: 1.1; }
+.pay .v small { font-family: "Cairo"; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0; }
+.pay .tip { font-size: 10px; font-weight: 700; color: var(--muted); margin-top: 6px; }
+.pay .cash .tip { color: var(--leaf); }
+.pay .opt:only-child { grid-column: 1 / -1; }
 .soldout { margin: 16px 20px 0; padding: 15px 16px; border-radius: 14px; background: rgba(217,119,87,.1); border: 1px solid rgba(217,119,87,.28); }
 .soldout b { display: block; font-family: "Naskh", serif; font-size: 16px; color: var(--clay-deep); margin-bottom: 5px; }
 .soldout span { font-size: 12px; font-weight: 600; color: var(--ink-soft); line-height: 1.7; }
@@ -466,24 +475,28 @@ def page_html(code, products):
 
     # ---------- price block
     if in_stock:
+        has_inst = bool(inst and inst != price)
+        saving = int(inst - price) if has_inst else 0
+        saving_pct = round(saving / inst * 100) if has_inst and inst else 0
         money = f"""
-    <div class="money">
-      <div class="row">
-        <div>
-          <div class="lbl">سعر الكاش</div>
-          <div style="display:flex;align-items:flex-end;gap:6px">
-            <span class="cash n">{fmt(price)}</span><span class="cur">جنيه</span>
-          </div>
-        </div>
-        {f'<div class="inst"><b class="n">{fmt(monthly)}</b><span>جنيه × {INSTALMENT_MONTHS} شهر · إجمالي {fmt(inst)}</span></div>' if inst and inst != price else ''}
+    <div class="pay">
+      <div class="opt cash">
+        <div class="k">كاش</div>
+        <div class="v"><span class="n">{fmt(price)}</span> <small>جنيه</small></div>
+        {f'<div class="tip">توفّر <span class="n">{fmt(saving)}</span> جنيه ({saving_pct}%)</div>' if has_inst else ''}
       </div>
+      {f"""<div class="opt">
+        <div class="k">تقسيط {INSTALMENT_MONTHS} شهر</div>
+        <div class="v"><span class="n">{fmt(monthly)}</span> <small>جنيه / شهر</small></div>
+        <div class="tip">الإجمالي <span class="n">{fmt(inst)}</span> جنيه</div>
+      </div>""" if has_inst else ''}
     </div>"""
     else:
         money = """
     <div class="money">
       <div class="soldout">
         <b>المنتج ده مش متوفر دلوقتي</b>
-        <span>اسأل البائع إمتى هيوصل</span>
+        <span>اسأل البائع عن وجوده في الفرع أو إمتى هيوصل</span>
       </div>
     </div>"""
 
@@ -523,7 +536,7 @@ def page_html(code, products):
         analysis_section = f"""
     <section>
       <h2>تحليل سريع</h2>
-      <div class="lede">أرقام محسوبة من المعروض عندنا في الفرع</div>
+      <div class="lede">أرقام محسوبة من المعروض عندنا</div>
       <div class="stats">{''.join(tiles)}</div>
       {meter}
     </section>"""
@@ -543,8 +556,12 @@ def page_html(code, products):
         vr = value_row(p, family)
         if vr:
             rows.append((vr["label"], [(value_row(products[c], family) or {}).get("value") for c in cols], vr["better"]))
-        rows.append(("التقسيط شهريًا", [round((num(products[c]["site"].get("price_installment")) or price_of(products[c])) / INSTALMENT_MONTHS)
-                                        for c in cols], "low"))
+        insts = [num(products[c]["site"].get("price_installment")) for c in cols]
+        if any(insts):
+            rows.insert(1, ("سعر التقسيط", [x or price_of(products[c]) for x, c in zip(insts, cols)], "low"))
+            rows.append(("القسط الشهري", [round((x or price_of(products[c])) / INSTALMENT_MONTHS)
+                                          for x, c in zip(insts, cols)], "low"))
+            rows.append(("فرق الكاش", [round((x - price_of(products[c])) if x else 0) for x, c in zip(insts, cols)], None))
 
         head = []
         for i, c in enumerate(cols):
@@ -575,7 +592,7 @@ def page_html(code, products):
         table = f"""
     <section>
       <h2>مقارنة بأقرب المنتجات</h2>
-      <div class="lede">أقرب ٣ منتجات من نفس النوع والمقاس في الفرع</div>
+      <div class="lede">أقرب ٣ منتجات من نفس النوع والمقاس عندنا</div>
       <table class="cmp">
         <thead><tr><th></th>{''.join(head)}</tr></thead>
         <tbody>{''.join(body)}</tbody>
@@ -643,7 +660,7 @@ def page_html(code, products):
   <div class="band">
     <div class="line">
       <div class="store"><img src="../assets/logo.jpeg" alt=""> {STORE['name']} · {STORE['branch']}</div>
-      <span class="stock{'' if in_stock else ' out'}">{'● متوفر في الفرع' if in_stock else '● غير متوفر حاليًا'}</span>
+      <span class="stock{'' if in_stock else ' out'}">{'● متوفر' if in_stock else '● غير متوفر حاليًا'}</span>
     </div>
     <h1>{e(clean_title(p))}</h1>
     <div class="meta">{''.join(meta)}<span class="n">{e(p['model'])}</span></div>
@@ -741,7 +758,7 @@ def minimal_page(code, item):
       <div class="sub">الموديل <b>{e(item.get('model',''))}</b></div>
       <div class="soldout">
         <b>المنتج ده مش متوفر دلوقتي</b>
-        <span>اسأل البائع إمتى هيوصل</span>
+        <span>اسأل البائع عن وجوده في الفرع أو إمتى هيوصل</span>
       </div>
     </div>
     <div class="note">آخر تحديث <b class="n">{date.today().isoformat()}</b></div>

@@ -41,6 +41,15 @@ h1 { font-family: "Naskh", serif; font-size: 27px; font-weight: 700; line-height
 .money .cur { font-size: 13px; font-weight: 700; color: var(--muted); }
 .money .inst { margin-inline-start: auto; text-align: left; font-size: 10.5px; font-weight: 600; color: var(--muted); line-height: 1.7; }
 .money .inst b { font-family: "Inter"; font-weight: 800; font-size: 15px; color: var(--ink); }
+.pay { margin: 16px 20px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pay .opt { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 13px 14px; }
+.pay .opt.cash { background: rgba(217,119,87,.1); border-color: rgba(217,119,87,.3); }
+.pay .k { font-size: 10.5px; font-weight: 700; color: var(--muted); }
+.pay .v { font-family: "Inter"; font-weight: 800; font-size: 25px; letter-spacing: -1px; margin-top: 5px; line-height: 1.1; }
+.pay .v small { font-family: "Cairo"; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0; }
+.pay .tip { font-size: 10px; font-weight: 700; color: var(--muted); margin-top: 6px; }
+.pay .cash .tip { color: var(--leaf); }
+.pay .opt:only-child { grid-column: 1 / -1; }
 .soldout { margin: 16px 20px 0; padding: 15px 16px; border-radius: 14px; background: rgba(217,119,87,.1); border: 1px solid rgba(217,119,87,.28); }
 .soldout b { display: block; font-family: "Naskh", serif; font-size: 16px; color: var(--clay-deep); margin-bottom: 5px; }
 .soldout span { font-size: 12px; font-weight: 600; color: var(--ink-soft); line-height: 1.7; }

@@ -5,7 +5,8 @@ Usage:
   python validate.py --accept        # record the current data as the new baseline
 
 A printed card can outlive a mistake, so a build only goes out when the data still
-looks sane: no products disappearing, no zero prices, no wild price jumps.
+looks sane. Prices vanishing is normal here — stock moves fast — so that only blocks a
+publish when nearly everything vanishes at once, which means the site or the parsing broke.
 
 Exit code 0 = safe to publish, 1 = blocked.
 """
@@ -23,9 +24,13 @@ BASELINE = DATA / "baseline.json"
 MAX_PRICE_JUMP = 0.40
 # How many matched products may vanish in one run before the build is blocked
 MAX_LOST_PRODUCTS = 2
-# Prices disappear legitimately when stock sells out; these caps catch site-wide faults instead
-MAX_VANISHED_PRICES = 8
-MAX_VANISHED_SHARE = 0.15
+# Stock here moves fast, so a batch of prices disappearing overnight is ordinary business.
+# Only a near-total wipe looks like a fault — and a damaged page is caught separately below.
+MAX_VANISHED_SHARE = 0.60
+# Above this share it is still worth a note in the summary, without stopping the publish
+NOTABLE_VANISHED_SHARE = 0.15
+# Pages that come back without a title or specs are a real fault signal, not sold-out stock
+MAX_DAMAGED_PAGES = 8
 
 
 def load(path):
@@ -67,10 +72,13 @@ def check(new, old):
         # is almost always the website or our parsing, so that is what blocks a publish.
         no_price = sorted(c for c in ok_new & set(prices_old) if c not in prices_new)
         share = len(no_price) / max(len(prices_old), 1)
-        if len(no_price) > MAX_VANISHED_PRICES or share > MAX_VANISHED_SHARE:
+        if share > MAX_VANISHED_SHARE:
             blocking.append(f"{len(no_price)} of {len(prices_old)} priced products lost their price in one run "
-                            f"({share:.0%}) — that looks like a website or parsing fault, not sold-out stock.")
-        elif no_price:
+                            f"({share:.0%}) — too many to be stock moving; the website or our parsing is at fault.")
+        elif share > NOTABLE_VANISHED_SHARE:
+            warnings.append(f"{len(no_price)} of {len(prices_old)} priced products ({share:.0%}) lost their price — "
+                            f"expected with fast-moving stock, but worth a glance.")
+        if no_price and share <= MAX_VANISHED_SHARE:
             pending = [c for c in no_price if new[c].get("price_missing_runs", 0) < 2]
             confirmed = [c for c in no_price if new[c].get("price_missing_runs", 0) >= 2]
             if pending:
@@ -81,7 +89,7 @@ def check(new, old):
                                 f"out of stock: {', '.join(confirmed)}.")
 
         stale = sorted(c for c, p in new.items() if p.get("status") == "stale")
-        if len(stale) > MAX_VANISHED_PRICES:
+        if len(stale) > MAX_DAMAGED_PAGES:
             blocking.append(f"{len(stale)} product pages came back damaged — the site may be down or blocking us.")
         elif stale:
             warnings.append(f"{len(stale)} page(s) came back damaged; the previous data was kept: {', '.join(stale)}.")

@@ -266,15 +266,20 @@ def scrape_item(item, reparse=False):
     if not reparse:
         # the category index is reliable; the site search is the fallback
         urls = catalog_urls(model)
-        urls += [u for u in search(model) if u not in urls]
+        alt = (item.get("model_alt") or "").strip()
+        if alt:
+            urls += [u for u in catalog_urls(alt) if u not in urls]
+        if not urls:
+            urls += [u for u in search(model) if u not in urls]
         if not urls:
             return {**record, "status": "not_found", "site": None}
         match = None
         for url in urls[:5]:
             html = fetch(url)
             site = parse_product(html)
-            if (models_match(model, site["reference"])
-                    or models_match(model, site["specs"].get("الموديل", ""))):
+            spellings = [model] + ([alt] if alt else [])
+            if any(models_match(m, site["reference"])
+                   or models_match(m, site["specs"].get("الموديل", "")) for m in spellings):
                 match = html
                 break
         if match is None:

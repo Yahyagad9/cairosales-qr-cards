@@ -89,6 +89,9 @@ def load_item(code):
     site = (products.get(code) or {}).get("site")
     if not site:
         sys.exit(f"No website data for {code}: run scrape_site.py first")
+    row = {**row, "url": row.get("url") or site.get("short_url", "")}
+    if not row["url"]:
+        sys.exit(f"No website link for {code}")
     return {**row, **auto_card_text(code, site), **CARD_OVERRIDES.get(code, {})}
 
 
@@ -145,6 +148,7 @@ def build_html(item):
         "HOTLINE": STORE["hotline"],
         "BRAND": item["brand"],
         "CATEGORY": item["category"],
+        "TITLE_CLASS": "longer" if len(item["title"]) > 26 else ("long" if len(item["title"]) > 18 else ""),
         "TITLE": item["title"],
         "SPECS": specs,
         "MODEL": item["model"],

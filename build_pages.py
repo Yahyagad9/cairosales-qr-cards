@@ -17,7 +17,7 @@ ROOT = Path(__file__).parent
 DOCS = ROOT / "docs"
 SITE_BASE = "https://yahyagad9.github.io/cairosales-qr-cards"
 
-STORE = {"name": "أسواق القاهرة للمبيعات", "branch": "مصر الجديدة", "hotline": "16141"}
+STORE = {"name": "أسواق القاهرة للمبيعات", "hotline": "16141"}
 INSTALMENT_MONTHS = 12
 
 BRAND_AR = {
@@ -605,9 +605,9 @@ def page_html(code, products):
         {f'<div class="tip">توفّر <span class="n">{fmt(saving)}</span> جنيه ({saving_pct}%)</div>' if has_inst else ''}
       </div>
       {f"""<div class="opt">
-        <div class="k">تقسيط {INSTALMENT_MONTHS} شهر</div>
-        <div class="v"><span class="n">{fmt(monthly)}</span> <small>جنيه / شهر</small></div>
-        <div class="tip">الإجمالي <span class="n">{fmt(inst)}</span> جنيه · أغلى بـ <span class="n">{fmt(saving)}</span></div>
+        <div class="k">بالتقسيط</div>
+        <div class="v"><span class="n">{fmt(inst)}</span> <small>جنيه</small></div>
+        <div class="tip">أغلى من الكاش بـ <span class="n">{fmt(saving)}</span> جنيه</div>
       </div>""" if has_inst else ''}
     </div>
     {f'<div class="paynote">لو دفعت <b>كاش</b> هتدفع <b class="n">{fmt(price)}</b> جنيه بدل <b class="n">{fmt(inst)}</b>، يعني <b>توفّر <span class="n">{fmt(saving)}</span> جنيه</b> ({saving_pct}%) على نفس المنتج.</div>' if has_inst else ''}
@@ -635,13 +635,6 @@ def page_html(code, products):
         tiles.append(f"""<div class="stat"><div class="k">سعره مقارنة بالمقاس ده</div>
           <div class="v small">{e(rank_label(a['rank'], a['peers']))}</div>
           <div class="note flat">من بين <span class="n">{a['peers']}</span> منتج بنفس المقاس عندنا</div></div>""")
-    if a.get("value"):
-        diff = a["value_diff"]
-        klass = "down" if diff < 0 else ("up" if diff > 0 else "flat")
-        word = "أقل من متوسط الفئة" if diff < 0 else ("أعلى من متوسط الفئة" if diff > 0 else "زي متوسط الفئة")
-        tiles.append(f"""<div class="stat"><div class="k">{e(a['value']['label'])}</div>
-          <div class="v n">{a['value']['text']}</div>
-          <div class="note {klass}">{word} بـ <span class="n">{abs(diff)}%</span></div></div>""")
     if a.get("cash_saving"):
         tiles.append(f"""<div class="stat"><div class="k">توفير الكاش</div>
           <div class="v"><span class="n">{fmt(a['cash_saving'])}</span> <small>جنيه</small></div>
@@ -684,14 +677,10 @@ def page_html(code, products):
             rows.append((perf["label"], [x["value"] for x in perfs],
                          "high" if any(x["value"] for x in perfs) else None))
         rows.append(("الضمان (سنة)", [warranty_years(products[c]) for c in cols], "high"))
-        vr = value_row(p, family)
-        if vr:
-            rows.append((vr["label"], [(value_row(products[c], family) or {}).get("value") for c in cols], vr["better"]))
         insts = [num(products[c]["site"].get("price_installment")) for c in cols]
         if any(insts):
             # blank, not a made-up number, where a product has no instalment price
             rows.insert(1, ("سعر التقسيط", list(insts), "low"))
-            rows.append(("القسط الشهري", [round(x / INSTALMENT_MONTHS) if x else None for x in insts], "low"))
             rows.append(("فرق الكاش", [round(x - price_of(products[c])) if x else None
                                        for x, c in zip(insts, cols)], None))
 
@@ -793,7 +782,7 @@ def page_html(code, products):
 
   <div class="band">
     <div class="line">
-      <a class="store" href="../index.html"><img src="../assets/logo.jpeg" alt=""> {STORE['name']} · {STORE['branch']}</a>
+      <a class="store" href="../index.html"><img src="../assets/logo.jpeg" alt=""> {STORE['name']}</a>
       <span class="stock{'' if in_stock else (' checking' if confirming else ' out')}">{'● متوفر' if in_stock else ('● بنأكد السعر' if confirming else '● غير متوفر حاليًا')}</span>
     </div>
     <h1>{e(clean_title(p))}</h1>
@@ -868,7 +857,7 @@ def index_html(products, items=None):
   <div class="top">
     <div class="brandline">
       <img src="assets/logo.jpeg" alt="">
-      <div><b>{STORE['name']}</b><span>{STORE['branch']}</span></div>
+      <div><b>{STORE['name']}</b></div>
     </div>
     <div class="where"><span class="n">{len(items) or len(products)}</span> منتج</div>
   </div>
@@ -945,7 +934,7 @@ def minimal_page(code, item, products=None):
   <div class="top">
     <a class="brandline" href="../index.html">
       <img src="../assets/logo.jpeg" alt="">
-      <div><b>{STORE['name']}</b><span>{STORE['branch']}</span></div>
+      <div><b>{STORE['name']}</b></div>
     </a>
     <div class="where">{e(item.get('category',''))}</div>
   </div>

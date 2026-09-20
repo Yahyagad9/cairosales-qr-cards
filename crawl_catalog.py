@@ -19,10 +19,12 @@ CATALOG = ROOT / "data" / "catalog.json"
 PER_PAGE = 100
 
 CATEGORIES = [
-    "led-plasma-tvs",            # شاشات و تليفزيونات
-    "kitchen-bath-hoods",        # شفاطات مطبخ و حمام
-    "built-in-kitchen-products",  # منتجات طهى بيلت إن (some hoods live here)
-    "washers-dryers",            # غسالات ملابس و مجففات
+    # every category that can hold an item from the branch stock report
+    "led-plasma-tvs", "kitchen-bath-hoods", "built-in-kitchen-products", "washers-dryers",
+    "refrigerators", "freezers", "cookers-ovens", "air-conditioners", "dishwashers",
+    "microwaves", "water-heaters", "small-appliances", "vacuums-steam-cleaners",
+    "water-dispenser", "home-theaters-speakers", "electronics-tv-accessories",
+    "mobiles-tablets", "air-purifiers", "cookware-tableware", "home-accessories",
 ]
 
 

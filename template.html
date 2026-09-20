@@ -26,11 +26,12 @@
     overflow: hidden;
   }
 
-  .card { position: relative; width: var(--w); height: var(--h); overflow: hidden; background: var(--paper); }
+  .card { position: relative; width: var(--w); height: var(--h); overflow: hidden; background: var(--paper);
+    display: flex; flex-direction: column; }
 
   /* ---------- red hero ---------- */
   .hero {
-    position: absolute; inset: 0 0 auto 0; height: 76mm;
+    position: relative; flex-shrink: 0; min-height: 50mm; padding-bottom: 11mm;
     background:
       radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 55%),
       radial-gradient(80% 70% at 0% 100%, rgba(0,0,0,.28) 0%, rgba(0,0,0,0) 60%),
@@ -76,9 +77,11 @@
     padding: 3.2mm 6mm 0;
   }
   .title h1 {
-    font-weight: 800; font-size: 7.6mm; line-height: 1.15;
+    font-weight: 800; font-size: 7.6mm; line-height: 1.2;
     text-shadow: 0 .5mm 1.5mm rgba(80,0,0,.25);
   }
+  .title h1.long { font-size: 6.2mm; }
+  .title h1.longer { font-size: 5.4mm; }
   .specs { display: flex; justify-content: center; gap: 1.8mm; margin-top: 2.6mm; flex-wrap: wrap; }
   .spec {
     display: flex; align-items: baseline; gap: 1mm;
@@ -90,12 +93,9 @@
   .spec b { font-family: "Inter"; font-weight: 800; font-size: 3.7mm; }
 
   /* ---------- QR card ---------- */
-  .qr-wrap {
-    position: absolute; left: 50%; top: 51.5mm; transform: translateX(-50%);
-    width: 54mm; z-index: 3;
-  }
+  .qr-wrap { width: 50mm; margin: -8mm auto 0; z-index: 3; }
   .qr-card {
-    position: relative; background: #fff; border-radius: 6mm; padding: 4.8mm;
+    position: relative; background: #fff; border-radius: 6mm; padding: 4.2mm;
     box-shadow: 0 3mm 8mm rgba(20,0,0,.18), 0 .6mm 1.6mm rgba(20,0,0,.12);
   }
   .qr-card svg.qr { display: block; width: 100%; height: auto; }
@@ -124,7 +124,7 @@
 
   /* ---------- model line ---------- */
   .info {
-    position: absolute; left: 0; right: 0; top: 111mm;
+    margin-top: 5.5mm;
     display: flex; align-items: baseline; justify-content: center; gap: 2mm; direction: ltr;
   }
   .model { font-family: "Inter"; font-weight: 800; font-size: 5mm; letter-spacing: .3mm; line-height: 1.1; }
@@ -132,9 +132,8 @@
 
   /* ---------- website QR row ---------- */
   .web {
-    position: absolute; left: 7mm; right: 7mm; top: 118.5mm; height: 18mm;
+    margin: 3.5mm 7mm 0;
     display: flex; align-items: center; justify-content: space-between; gap: 3mm;
-    padding: 0 0 0 0;
   }
   .web-text { display: flex; flex-direction: column; align-items: flex-start; gap: .2mm; }
   .web-q { font-weight: 800; font-size: 3.9mm; line-height: 1.25; color: var(--ink); }
@@ -157,7 +156,7 @@
 
   /* ---------- footer ---------- */
   .footer {
-    position: absolute; left: 0; right: 0; bottom: 0; height: 10mm;
+    position: relative; margin-top: auto; flex-shrink: 0; height: 10mm;
     background: var(--ink); color: #fff;
     display: flex; align-items: center; justify-content: center; gap: 2.2mm;
   }
@@ -190,7 +189,7 @@
     </div>
 
     <div class="title">
-      <h1>{{TITLE}}</h1>
+      <h1 class="{{TITLE_CLASS}}">{{TITLE}}</h1>
       <div class="specs">{{SPECS}}</div>
     </div>
   </div>

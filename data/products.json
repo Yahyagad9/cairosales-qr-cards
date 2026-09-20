@@ -3941,16 +3941,37 @@
     "code": "395019074",
     "model": "ETO PRO PLUS 60 X",
     "store_name": "بيورتي شفاط هرمي60سم 3 سرعات قوه شفط 1000 م/ساعه لون سيلفر",
-    "scraped_at": "2026-09-19T16:58:04",
-    "status": "no_exact_match",
-    "site": null,
-    "candidates": [
-      "https://cairosales.com/ar/kitchen-bath-hoods/purity-cooker-hood-60-cm-1000-m3h-3-speeds-black-eto-pro-plus-bl-60.html",
-      "https://cairosales.com/ar/kitchen-bath-hoods/purity-cooker-hood-60-cm-1000-m3h-3-speeds-silver-eto-pro-plus-x-60.html",
-      "https://cairosales.com/ar/kitchen-bath-hoods/purity-kitchen-chimney-hood-pyramidal-90cm-1000h-3-speeds-silver-eto-pro-plus-90-x.html",
-      "https://cairosales.com/ar/kitchen-bath-hoods/purity-cooker-hood-90-cm-1000-m3h-3-speeds-black-eto-pro-plus-bl-90.html",
-      "https://cairosales.com/ar/kitchen-bath-hoods/purity-built-in-hood-60cm-1000-m3h-with-remote-control-black-flato-pro-dbl-plus-60-cm.html"
-    ]
+    "scraped_at": "2026-09-20T12:26:19",
+    "status": "ok",
+    "site": {
+      "id_product": "47795",
+      "reference": "ETO-PRO-PLUS-BL-60",
+      "title": "بيوريتي شفاط 60 سم 1000 م3/ساعة 3 سرعات لون أسود ETO PRO PLUS BL 60",
+      "brand": "Purity",
+      "category": "شفاطات مطبخ و حمام",
+      "breadcrumb": [
+        "شفاطات مطبخ و حمام"
+      ],
+      "price_cash": "5662",
+      "price_installment": "",
+      "currency": "EGP",
+      "availability": "instock",
+      "short_description": "قوة شفط ١٠٠٠ متر مكعب/ساعة مزود بمرشحات ألومنيوم لحجب الدهون والغبار مزود بمرشحات كربون لتنقية الهواء أزرار لوحة التحكم إضاءة LED ٣ سرعات إمكانية التشغيل مع مرشح كربون إمكانية تشغيل وحدة خارجية (مدخنة) ضمان ٥ سنوات صنع في تركيا",
+      "specs": {
+        "الموديل": "ETO-PRO-PLUS-BL-60",
+        "اللون": "أسود",
+        "الضمان": "5 أعوام",
+        "بلد الصنع": "تركيا",
+        "الوات": "1000 م3/ساعة",
+        "الأبعاد": "60 cm",
+        "شكل الشفاط": "هرمي"
+      },
+      "images": [
+        "https://cairosales.com/129237-thickbox_default/purity-cooker-hood-60-cm-1000-m3h-3-speeds-black-eto-pro-plus-bl-60.jpg"
+      ],
+      "url": "https://cairosales.com/ar/kitchen-bath-hoods/purity-cooker-hood-60-cm-1000-m3h-3-speeds-black-eto-pro-plus-bl-60.html",
+      "short_url": "https://cairosales.com/ar/?controller=product&id_product=47795"
+    }
   },
   "440062004": {
     "code": "440062004",
@@ -3990,7 +4011,7 @@
     "code": "446062004",
     "model": "3020906-50LG8070Q",
     "store_name": "شاشة تلفزيون سمارت ليفون ، مقاس 50 بوصة ، QLED ، دقة 4K UHD ، بريسيفر داخلي - مع",
-    "scraped_at": "2026-09-19T17:05:25",
+    "scraped_at": "2026-09-20T12:28:01",
     "status": "not_found",
     "site": null
   },

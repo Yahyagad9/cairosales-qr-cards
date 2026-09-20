@@ -176,7 +176,7 @@ CSS = """
   --card: #FAF9F5;        /* raised surface */
   --ink: #141413;
   --ink-soft: #3D3D3A;
-  --muted: #7C7972;
+  --muted: #6E6B64;
   --line: #E3E0D6;
   --clay: #D97757;        /* accent */
   --clay-deep: #B5573B;
@@ -193,7 +193,7 @@ img { max-width: 100%; display: block; }
 /* ---------- identity ---------- */
 .band { padding: 18px 20px 20px; }
 .band .line { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.band .store { display: flex; align-items: center; gap: 8px; font-size: 10.5px; font-weight: 700; color: var(--muted); }
+.band .store { display: flex; align-items: center; gap: 8px; text-decoration: none; font-size: 12px; font-weight: 700; color: var(--muted); }
 .band .store img { width: 28px; height: 28px; border-radius: 50%; }
 .stock { font-size: 10.5px; font-weight: 700; border-radius: 30px; padding: 5px 11px; background: rgba(92,127,88,.14); color: var(--leaf); white-space: nowrap; }
 .stock.out { background: rgba(181,87,59,.13); color: var(--clay-deep); }
@@ -202,7 +202,7 @@ img { max-width: 100%; display: block; }
 .soldout.checking b { color: #8A6440; }
 h1 { font-family: "Naskh", serif; font-size: 27px; font-weight: 700; line-height: 1.5; margin-top: 16px; letter-spacing: -.2px; }
 .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.meta span { font-size: 10.5px; font-weight: 600; color: var(--ink-soft); background: rgba(20,20,19,.045); border-radius: 7px; padding: 5px 10px; }
+.meta span { font-size: 11.5px; font-weight: 600; color: var(--ink-soft); background: rgba(20,20,19,.045); border-radius: 7px; padding: 5px 10px; }
 .meta .brand { font-family: "Inter"; font-weight: 800; background: var(--ink); color: var(--paper); }
 
 /* ---------- photo + price ---------- */
@@ -224,7 +224,7 @@ h1 { font-family: "Naskh", serif; font-size: 27px; font-weight: 700; line-height
 .pay .opt:only-child { grid-column: 1 / -1; }
 .paynote { margin: 10px 20px 0; background: rgba(92,127,88,.1); border: 1px solid rgba(92,127,88,.25); border-radius: 12px; padding: 11px 13px; font-size: 11.5px; font-weight: 600; color: var(--ink-soft); line-height: 1.7; }
 .paynote b { font-weight: 800; color: var(--ink); }
-.fresh { margin: 10px 20px 0; display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; color: var(--muted); }
+.fresh { margin: 10px 20px 0; display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 700; color: var(--muted); }
 .fresh .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--leaf); flex-shrink: 0; }
 .soldout { margin: 16px 20px 0; padding: 15px 16px; border-radius: 14px; background: rgba(217,119,87,.1); border: 1px solid rgba(217,119,87,.28); }
 .soldout b { display: block; font-family: "Naskh", serif; font-size: 16px; color: var(--clay-deep); margin-bottom: 5px; }
@@ -233,26 +233,26 @@ h1 { font-family: "Naskh", serif; font-size: 27px; font-weight: 700; line-height
 /* ---------- sections ---------- */
 section { margin: 22px 20px 0; }
 h2 { font-family: "Naskh", serif; font-size: 17px; font-weight: 700; margin-bottom: 4px; }
-.lede { font-size: 11.5px; font-weight: 600; color: var(--muted); line-height: 1.7; margin-bottom: 13px; }
+.lede { font-size: 12.5px; font-weight: 600; color: var(--muted); line-height: 1.7; margin-bottom: 13px; }
 
 /* stat tiles */
 .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 13px; }
-.stat .k { font-size: 10.5px; font-weight: 700; color: var(--muted); }
+.stat .k { font-size: 12px; font-weight: 700; color: var(--muted); }
 .stat .v.small { font-family: "Cairo"; font-size: 15px; letter-spacing: 0; }
 .stat .v { font-family: "Inter"; font-size: 21px; font-weight: 800; margin-top: 6px; line-height: 1.1; letter-spacing: -.5px; }
 .stat .v small { font-family: "Cairo"; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0; }
-.stat .note { font-size: 10px; font-weight: 700; margin-top: 6px; line-height: 1.5; }
+.stat .note { font-size: 11.5px; font-weight: 700; margin-top: 6px; line-height: 1.5; }
 .up { color: var(--clay-deep); } .down { color: var(--leaf); } .flat { color: var(--muted); }
 
 /* price meter */
 .meter { margin-top: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
-.meter .cap { font-size: 10.5px; font-weight: 700; color: var(--muted); margin-bottom: 11px; }
+.meter .cap { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 11px; }
 .meter .track { position: relative; height: 7px; border-radius: 6px; margin-top: 26px; background: linear-gradient(to left, rgba(92,127,88,.45), rgba(217,119,87,.5)); }
 .meter .pin { position: absolute; top: -25px; transform: translateX(50%); background: var(--clay); color: #fff; font-size: 10px; font-weight: 800; border-radius: 7px; padding: 3px 7px; white-space: nowrap; }
 .meter .pin::after { content: ""; position: absolute; bottom: -4px; inset-inline-start: calc(50% - 4px); width: 8px; height: 8px; background: var(--clay); transform: rotate(45deg); border-radius: 1px; }
 .meter .dot { position: absolute; top: -5px; width: 17px; height: 17px; border-radius: 50%; background: var(--clay); border: 3px solid var(--card); box-shadow: 0 1px 3px rgba(20,20,19,.25); transform: translateX(50%); }
-.meter .ends { display: flex; justify-content: space-between; margin-top: 9px; font-size: 10px; font-weight: 700; color: var(--muted); }
+.meter .ends { display: flex; justify-content: space-between; margin-top: 9px; font-size: 11.5px; font-weight: 700; color: var(--muted); }
 
 /* guidance + explainer */
 .advice { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 15px; }
@@ -260,7 +260,7 @@ h2 { font-family: "Naskh", serif; font-size: 17px; font-weight: 700; margin-bott
 .advice p + p { margin-top: 9px; }
 .advice b { color: var(--ink); }
 .scale { display: flex; gap: 6px; margin-top: 12px; }
-.scale div { flex: 1; text-align: center; font-size: 9.5px; font-weight: 700; color: var(--muted); background: rgba(20,20,19,.045); border-radius: 8px; padding: 7px 3px; line-height: 1.5; }
+.scale div { flex: 1; text-align: center; font-size: 11px; font-weight: 700; color: var(--muted); background: rgba(20,20,19,.045); border-radius: 8px; padding: 7px 3px; line-height: 1.5; }
 .scale div.on { background: var(--clay); color: #fff; }
 .scale div.on span { color: rgba(255,255,255,.85); }
 .scale span { display: block; font-family: "Inter"; font-weight: 800; font-size: 11px; color: var(--ink); }
@@ -270,22 +270,22 @@ h2 { font-family: "Naskh", serif; font-size: 17px; font-weight: 700; margin-bott
 .faq .q { padding: 12px 0; border-bottom: 1px solid var(--line); }
 .faq .q:last-child { border: 0; }
 .faq .q b { display: block; font-size: 12px; font-weight: 700; margin-bottom: 4px; }
-.faq .q span { font-size: 11.5px; font-weight: 600; color: var(--muted); line-height: 1.65; }
+.faq .q span { font-size: 12.5px; font-weight: 600; color: var(--muted); line-height: 1.65; }
 
 /* comparison */
 .cmp { width: 100%; border-collapse: collapse; font-size: 11.5px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
 .cmp th, .cmp td { padding: 10px 5px; text-align: center; border-bottom: 1px solid var(--line); }
 .cmp thead th { font-weight: 700; font-size: 10.5px; line-height: 1.4; vertical-align: bottom; }
-.cmp thead th a { color: inherit; text-decoration: none; display: block; }
-.cmp thead th .go { display: block; font-size: 9px; font-weight: 700; color: var(--clay-deep); margin-top: 4px; }
-.cmp thead th small { display: block; font-weight: 600; color: var(--muted); font-size: 9px; margin-top: 3px; }
+.cmp thead th a { color: inherit; text-decoration: none; display: block; padding: 6px 2px; margin: -6px -2px; }
+.cmp thead th .go { display: block; font-size: 11px; font-weight: 700; color: var(--clay-deep); margin-top: 4px; }
+.cmp thead th small { display: block; font-weight: 600; color: var(--muted); font-size: 10.5px; margin-top: 3px; }
 .cmp tbody th { text-align: right; font-weight: 600; color: var(--muted); font-size: 10.5px; white-space: nowrap; padding-inline-start: 12px; }
 .cmp td { font-weight: 700; }
 .cmp .me { background: rgba(217,119,87,.1); }
 .cmp .best { color: var(--leaf); font-weight: 800; }
 .cmp .best::after { content: " ✓"; font-size: 9px; }
 .mytag { display: inline-block; font-size: 9px; font-weight: 800; color: #fff; background: var(--clay); border-radius: 20px; padding: 2px 8px; margin-bottom: 5px; }
-.legend { margin-top: 10px; font-size: 10px; color: var(--muted); font-weight: 600; line-height: 1.6; }
+.legend { margin-top: 10px; font-size: 12px; color: var(--muted); font-weight: 600; line-height: 1.6; }
 
 /* facts + specs */
 .facts { display: flex; flex-wrap: wrap; gap: 7px; }
@@ -297,13 +297,36 @@ h2 { font-family: "Naskh", serif; font-size: 17px; font-weight: 700; margin-bott
 .sp .k { flex: 1; font-size: 11.5px; font-weight: 600; color: var(--muted); }
 .sp .v { font-size: 12.5px; font-weight: 700; text-align: left; }
 
-.note-foot { margin: 24px 20px 0; padding-top: 16px; border-top: 1px solid var(--line); text-align: center; font-size: 10px; color: var(--muted); font-weight: 600; line-height: 1.9; }
+.note-foot { margin: 24px 20px 0; padding-top: 16px; border-top: 1px solid var(--line); text-align: center; font-size: 12px; color: var(--muted); font-weight: 600; line-height: 1.9; }
 .note-foot b { font-family: "Inter"; color: var(--ink-soft); }
+
+
+/* alternatives when a product has no price */
+.alts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+.alt-card { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 9px; text-decoration: none; color: inherit; display: block; }
+.alt-card img { border-radius: 9px; margin-bottom: 8px; width: 100%; }
+.alt-card b { display: block; font-size: 11px; font-weight: 700; line-height: 1.45; height: 47px; overflow: hidden; }
+.alt-card span { display: block; font-family: "Inter"; font-weight: 800; font-size: 12.5px; color: var(--clay-deep); margin-top: 6px; }
+.alt-card span small { font-family: "Cairo"; font-size: 10px; font-weight: 700; color: var(--muted); }
+
+/* index finder */
+.finder { padding: 0 20px; display: grid; gap: 10px; }
+.search { display: flex; align-items: center; gap: 9px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 11px 13px; color: var(--muted); }
+.search svg { width: 17px; height: 17px; flex-shrink: 0; }
+.search input { flex: 1; border: 0; background: none; font: inherit; font-size: 13.5px; color: var(--ink); outline: none; min-width: 0; }
+.tabs { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 2px; }
+.tab { font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; white-space: nowrap; background: var(--card); color: var(--ink-soft); border: 1px solid var(--line); border-radius: 20px; padding: 7px 14px; }
+.tab.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.tab .n { opacity: .6; font-size: 11px; }
+.tab:focus-visible, .search input:focus-visible { outline: 2px solid var(--clay); outline-offset: 2px; }
+.empty { text-align: center; color: var(--muted); font-size: 13px; font-weight: 600; padding: 30px 0; }
+.item .p.out { color: var(--muted); font-family: "Cairo"; font-size: 11.5px; font-weight: 700; }
+.item .p small { font-family: "Cairo"; font-size: 10.5px; font-weight: 700; color: var(--muted); }
 
 /* index */
 .page { max-width: 460px; margin: 0 auto; min-height: 100vh; }
 .top { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.brandline { display: flex; align-items: center; gap: 9px; }
+.brandline { display: flex; align-items: center; gap: 9px; text-decoration: none; color: inherit; }
 .brandline img { width: 32px; height: 32px; border-radius: 50%; }
 .brandline b { font-family: "Naskh", serif; font-size: 15px; font-weight: 700; }
 .brandline span { display: block; font-size: 10px; color: var(--muted); font-weight: 600; }
@@ -458,6 +481,55 @@ def analysis(code, products, family):
     return out
 
 
+def photo(code, fallback="", alt="", cls="", prefix="../"):
+    """WebP at two widths with the JPEG as fallback; one <img> tag if we have no local copy."""
+    jpg = DOCS / "img" / f"{code}.jpg"
+    alt = html.escape(alt)
+    if not jpg.exists():
+        return f'<img src="{fallback}" alt="{alt}" class="{cls}" loading="lazy">' if fallback else ""
+    small = DOCS / "img" / f"{code}-400.webp"
+    large = DOCS / "img" / f"{code}-800.webp"
+    if not small.exists():
+        return f'<img src="{prefix}img/{code}.jpg" alt="{alt}" class="{cls}" loading="lazy">'
+    srcset = f'{prefix}img/{code}-400.webp 400w'
+    if large.exists():
+        srcset += f', {prefix}img/{code}-800.webp 800w'
+    return (f'<picture><source type="image/webp" srcset="{srcset}" sizes="(max-width: 460px) 100vw, 460px">'
+            f'<img src="{prefix}img/{code}.jpg" alt="{alt}" class="{cls}" loading="lazy" decoding="async"></picture>')
+
+
+def alternatives(code, products, family=None, near_price=None, limit=3):
+    """In-stock products to offer when this one has no price — closest in price first."""
+    pool = [(c, q) for c, q in products.items()
+            if c != code and q.get("status") == "ok" and price_of(q)
+            and (family is None or family_of(q) == family)]
+    if not pool:
+        return []
+    if near_price:
+        pool.sort(key=lambda cq: abs(price_of(cq[1]) - near_price))
+    else:
+        pool.sort(key=lambda cq: price_of(cq[1]))
+        # no reference price: show a cheap, a middle and a dearer option
+        if len(pool) > limit:
+            step = max(1, len(pool) // limit)
+            pool = [pool[min(i * step, len(pool) - 1)] for i in range(limit)]
+    return [c for c, _ in pool[:limit]]
+
+
+def alternatives_html(codes, products, prefix=""):
+    cards = []
+    for c in codes:
+        q = products[c]
+        cards.append(
+            f'<a class="alt-card" href="{prefix}{c}.html">{photo(c, alt=q["model"])}'
+            f'<b>{html.escape(clean_title(q))}</b>'
+            f'<span class="n">{fmt(price_of(q))} <small>جنيه</small></span></a>'
+        )
+    return (f'<section><h2>بدائل متوفرة دلوقتي</h2>'
+            f'<div class="lede">أقرب المنتجات المتاحة عندنا</div>'
+            f'<div class="alts">{"".join(cards)}</div></section>') if cards else ""
+
+
 def freshness(when=None):
     """How old the price is, in the words a customer would use."""
     when = when or date.today()
@@ -507,7 +579,8 @@ def page_html(code, products):
     a = analysis(code, products, family) if in_stock else {}
     size = size_of(p, family)
     specs = s.get("specs", {})
-    img = f"../img/{code}.jpg" if (DOCS / "img" / f"{code}.jpg").exists() else (s.get("images") or [""])[0]
+    img = photo(code, fallback=(s.get("images") or [""])[0], alt=p["model"])
+    alt_codes = [] if in_stock else alternatives(code, products, family, last_price)
 
     # ---------- identity chips
     meta = [f'<span class="brand">{e(s.get("brand") or "")}</span>' if s.get("brand") else ""]
@@ -722,15 +795,16 @@ def page_html(code, products):
 
   <div class="band">
     <div class="line">
-      <div class="store"><img src="../assets/logo.jpeg" alt=""> {STORE['name']} · {STORE['branch']}</div>
+      <a class="store" href="../index.html"><img src="../assets/logo.jpeg" alt=""> {STORE['name']} · {STORE['branch']}</a>
       <span class="stock{'' if in_stock else (' checking' if confirming else ' out')}">{'● متوفر' if in_stock else ('● بنأكد السعر' if confirming else '● غير متوفر حاليًا')}</span>
     </div>
     <h1>{e(clean_title(p))}</h1>
     <div class="meta">{''.join(meta)}<span class="n">{e(p['model'])}</span></div>
   </div>
 
-  {f'<div class="shot"><img src="{img}" alt="{e(p["model"])}"></div>' if img else ''}
+  {f'<div class="shot">{img}</div>' if img else ''}
   {money}
+  {alternatives_html(alt_codes, products) if alt_codes else ''}
   {analysis_section}
   {advice_section}
   {table}
@@ -751,23 +825,38 @@ def page_html(code, products):
 """
 
 
+CATEGORY_LABELS = {"tv": "شاشات", "hood": "شفاطات", "washer": "غسالات", "other": "منتجات تانية"}
+
+
 def index_html(products, items=None):
     e = html.escape
     items = items or {}
     cards = []
-    for code, p in sorted(products.items(), key=lambda kv: kv[1]["site"]["title"]):
-        img = f"img/{code}.jpg" if (DOCS / "img" / f"{code}.jpg").exists() else p["site"]["images"][0]
-        cards.append(
-            f'<a class="item" href="p/{code}.html"><img src="{img}" alt="">'
-            f'<b>{e(clean_title(p))}</b><div class="p n">{fmt(price_of(p))} EGP</div></a>'
-        )
+
+    def card(code, title, price_html, family, extra=""):
+        haystack = e(f"{title} {items.get(code, {}).get('model', '')}").lower()
+        return (f'<a class="item" data-family="{family}" data-search="{haystack}" href="p/{code}.html">'
+                f'{photo(code, alt=title, prefix="")}<b>{e(title)}</b>{price_html}{extra}</a>')
+
+    for code, prod in sorted(products.items(), key=lambda kv: -(price_of(kv[1]) or 0)):
+        cards.append(card(code, clean_title(prod),
+                          f'<div class="p n">{fmt(price_of(prod))} <small>جنيه</small></div>',
+                          family_of(prod)))
     for code, item in sorted(items.items(), key=lambda kv: kv[1]["name"]):
         if code in products:
             continue
-        cards.append(
-            f'<a class="item" href="p/{code}.html"><b>{e(item["name"])}</b>'
-            f'<div class="p" style="color:#656E7A">غير متوفر حاليًا</div></a>'
-        )
+        family = {"شاشات": "tv", "شفاط": "hood"}.get(item.get("category", ""), "other")
+        cards.append(card(code, item["name"], '<div class="p out">غير متوفر حاليًا</div>', family))
+
+    counts = {}
+    for code, prod in products.items():
+        counts[family_of(prod)] = counts.get(family_of(prod), 0) + 1
+    tabs = ['<button type="button" class="tab on" data-family="all">الكل</button>']
+    for family, label in CATEGORY_LABELS.items():
+        if counts.get(family):
+            tabs.append(f'<button type="button" class="tab" data-family="{family}">{label}'
+                        f' <span class="n">{counts[family]}</span></button>')
+
     return f"""<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -775,7 +864,6 @@ def index_html(products, items=None):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>منتجات {STORE['name']}</title>
 <link rel="stylesheet" href="assets/style.css">
-<style>.wrap{{padding:16px 14px 26px}}</style>
 </head>
 <body>
 <div class="page">
@@ -784,19 +872,68 @@ def index_html(products, items=None):
       <img src="assets/logo.jpeg" alt="">
       <div><b>{STORE['name']}</b><span>{STORE['branch']}</span></div>
     </div>
-    <div class="where">{len(products)} منتج</div>
+    <div class="where"><span class="n">{len(items) or len(products)}</span> منتج</div>
   </div>
-  <div class="wrap"><div class="grid">{''.join(cards)}</div></div>
+
+  <div class="finder">
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="دوّر باسم المنتج أو الموديل" autocomplete="off">
+    </label>
+    <div class="tabs">{''.join(tabs)}</div>
+  </div>
+
+  <div class="wrap">
+    <div class="grid" id="grid">{''.join(cards)}</div>
+    <p class="empty" id="empty" hidden>مفيش منتج بالاسم ده — جرّب كلمة تانية</p>
+  </div>
 </div>
+
+<script>
+(function () {{
+  var q = document.getElementById('q');
+  var grid = document.getElementById('grid');
+  var empty = document.getElementById('empty');
+  var items = Array.prototype.slice.call(grid.querySelectorAll('.item'));
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var family = 'all';
+
+  function apply() {{
+    var term = (q.value || '').trim().toLowerCase();
+    var shown = 0;
+    items.forEach(function (el) {{
+      var okFamily = family === 'all' || el.dataset.family === family;
+      var okTerm = !term || el.dataset.search.indexOf(term) !== -1;
+      el.hidden = !(okFamily && okTerm);
+      if (!el.hidden) shown++;
+    }});
+    empty.hidden = shown !== 0;
+  }}
+
+  q.addEventListener('input', apply);
+  tabs.forEach(function (tab) {{
+    tab.addEventListener('click', function () {{
+      tabs.forEach(function (t) {{ t.classList.toggle('on', t === tab); }});
+      family = tab.dataset.family;
+      apply();
+    }});
+  }});
+}})();
+</script>
 </body>
 </html>
 """
 
 
-def minimal_page(code, item):
+def minimal_page(code, item, products=None):
     """Item not on the website: no price, so it counts as out of stock."""
     e = html.escape
+    products = products or {}
     name = e(item.get("name") or item.get("store_name") or "")
+    family = {"شاشات": "tv", "شفاط": "hood"}.get(item.get("category", ""))
+    if family is None and "غسال" in item.get("name", ""):
+        family = "washer"
+    alts = alternatives_html(alternatives(code, products, family), products)
     return f"""<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -808,10 +945,10 @@ def minimal_page(code, item):
 <body>
 <div class="page">
   <div class="top">
-    <div class="brandline">
+    <a class="brandline" href="../index.html">
       <img src="../assets/logo.jpeg" alt="">
       <div><b>{STORE['name']}</b><span>{STORE['branch']}</span></div>
-    </div>
+    </a>
     <div class="where">{e(item.get('category',''))}</div>
   </div>
   <div class="wrap">
@@ -824,6 +961,7 @@ def minimal_page(code, item):
         <span>اسأل البائع عن وجوده في الفرع أو إمتى هيوصل</span>
       </div>
     </div>
+    {alts}
     <div class="note">آخر تحديث <b class="n">{date.today().isoformat()}</b></div>
   </div>
 </div>
@@ -850,7 +988,7 @@ def main():
         (DOCS / "p" / f"{code}.html").write_text(page_html(code, products), encoding="utf-8")
     missing = [c for c in items if c not in products]
     for code in missing:
-        (DOCS / "p" / f"{code}.html").write_text(minimal_page(code, items[code]), encoding="utf-8")
+        (DOCS / "p" / f"{code}.html").write_text(minimal_page(code, items[code], products), encoding="utf-8")
     (DOCS / "index.html").write_text(index_html(products, items), encoding="utf-8")
     print(f"built {len(products) + len(missing)} pages in docs/ "
           f"({len(products)} with website data, {len(missing)} marked out of stock)"

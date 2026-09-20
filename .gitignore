@@ -13,3 +13,5 @@ output/
 .DS_Store
 data/img_log.txt
 mockup/*.pdf
+data/runs/*.log
+data/baseline.json

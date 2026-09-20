@@ -52,6 +52,8 @@ h1 { font-family: "Naskh", serif; font-size: 27px; font-weight: 700; line-height
 .pay .opt:only-child { grid-column: 1 / -1; }
 .paynote { margin: 10px 20px 0; background: rgba(92,127,88,.1); border: 1px solid rgba(92,127,88,.25); border-radius: 12px; padding: 11px 13px; font-size: 11.5px; font-weight: 600; color: var(--ink-soft); line-height: 1.7; }
 .paynote b { font-weight: 800; color: var(--ink); }
+.fresh { margin: 10px 20px 0; display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; color: var(--muted); }
+.fresh .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--leaf); flex-shrink: 0; }
 .soldout { margin: 16px 20px 0; padding: 15px 16px; border-radius: 14px; background: rgba(217,119,87,.1); border: 1px solid rgba(217,119,87,.28); }
 .soldout b { display: block; font-family: "Naskh", serif; font-size: 16px; color: var(--clay-deep); margin-bottom: 5px; }
 .soldout span { font-size: 12px; font-weight: 600; color: var(--ink-soft); line-height: 1.7; }

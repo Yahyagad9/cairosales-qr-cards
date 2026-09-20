@@ -1,0 +1,14 @@
+{
+  "started": "2026-09-20T12:17:36",
+  "published": false,
+  "result": "built, not published",
+  "stats": {
+    "items": 115,
+    "with_data": 95,
+    "with_price": 95,
+    "price_changes": 0,
+    "new_products": 0
+  },
+  "blocking": [],
+  "warnings": []
+}

@@ -5,6 +5,7 @@ Usage:
   python scrape_site.py 101062465 ...   # only these item codes
   python scrape_site.py --refresh       # re-download everything (e.g. for new prices)
   python scrape_site.py --reparse       # rebuild products.json from saved pages, no downloads
+  python scrape_site.py --prices        # nightly: re-read known product pages only (prices/specs)
 
 For each item: search the site by model, open the matching Arabic product page, and save
 title, brand, category, cash + installment prices, stock status, images, description and the spec table.
@@ -286,21 +287,46 @@ def scrape_item(item, reparse=False):
     return {**record, "status": "ok", "site": parse_product(raw.read_text(encoding="utf-8"))}
 
 
+def refresh_prices(item, products):
+    """Re-read a product page we already matched — no search, no catalogue, one request."""
+    code = item["code"]
+    old = products[code]
+    url = (old.get("site") or {}).get("url") or (old.get("site") or {}).get("short_url")
+    if not url:
+        return old
+    html = fetch(url)
+    site = parse_product(html)
+    if not (models_match(item["model"], site["reference"])
+            or models_match(item["model"], site["specs"].get("الموديل", ""))):
+        # the page moved to a different product: leave the old record alone for a human to check
+        return {**old, "status": "moved", "checked_at": datetime.now().isoformat(timespec="seconds")}
+    RAW.mkdir(parents=True, exist_ok=True)
+    (RAW / f"{code}.html").write_text(html, encoding="utf-8")
+    return {**old, "status": "ok", "site": site,
+            "scraped_at": datetime.now().isoformat(timespec="seconds")}
+
+
 def main(args):
     refresh = "--refresh" in args
     reparse = "--reparse" in args
+    prices_only = "--prices" in args
     codes = [a for a in args if not a.startswith("--")]
 
     items = load_items()
     products = load_products()
-    todo = [i for i in items if (not codes or i["code"] in codes)
-            and (refresh or reparse or codes or products.get(i["code"], {}).get("status") != "ok")]
+    if prices_only:
+        # nightly job: only items already matched, so the site sees ~1 request per product
+        todo = [i for i in items if products.get(i["code"], {}).get("status") == "ok"
+                and (not codes or i["code"] in codes)]
+    else:
+        todo = [i for i in items if (not codes or i["code"] in codes)
+                and (refresh or reparse or codes or products.get(i["code"], {}).get("status") != "ok")]
     if reparse:
         todo = [i for i in todo if (RAW / f"{i['code']}.html").exists()]
 
     for n, item in enumerate(todo, 1):
         try:
-            rec = scrape_item(item, reparse=reparse)
+            rec = refresh_prices(item, products) if prices_only else scrape_item(item, reparse=reparse)
         except Exception as e:  # keep going; failed items are retried on the next run
             rec = {"code": item["code"], "model": item["model"], "store_name": item["name"],
                    "status": f"error: {e}", "site": None}

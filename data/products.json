@@ -2739,7 +2739,7 @@
     "code": "211019003",
     "model": "IHPC 9.4 AM X",
     "store_name": "شفاط اندست هرمى 90 420 م/ثانية استانلس",
-    "scraped_at": "2026-09-19T15:54:01",
+    "scraped_at": "2026-09-20T11:55:42",
     "status": "no_exact_match",
     "site": null,
     "candidates": [
@@ -2791,7 +2791,7 @@
     "code": "211019008",
     "model": "IHPC 6.4 AM X",
     "store_name": "أنديست شفاط هرمي 60 سم بالمدخنة 416 م3/ثانية استانليس",
-    "scraped_at": "2026-09-19T15:55:48",
+    "scraped_at": "2026-09-20T12:02:59",
     "status": "no_exact_match",
     "site": null,
     "candidates": [
@@ -2845,15 +2845,52 @@
     "code": "230019006",
     "model": "DWP64CC60Z",
     "store_name": "بوش شفاط مطبخ 60 سم ثلاث سرعات بقوة 380 متر مكعب/ ساعة أسود",
-    "scraped_at": "2026-09-19T16:00:16",
-    "status": "not_found",
-    "site": null
+    "scraped_at": "2026-09-20T12:08:08",
+    "status": "ok",
+    "site": {
+      "id_product": "8544",
+      "reference": "DWP64CC50Z",
+      "title": "بوش شفاط مطبخ 60 سم ثلاث سرعات بقوة 380 متر مكعب/ ساعة ستانلس ستيل DWP64CC50Z",
+      "brand": "BOSCH",
+      "category": "شفاطات مطبخ و حمام",
+      "breadcrumb": [
+        "شفاطات مطبخ و حمام"
+      ],
+      "price_cash": "13499",
+      "price_installment": "",
+      "currency": "EGP",
+      "availability": "instock",
+      "short_description": "شفاط المدخنة الجداري: تركيبه على الجدار يمنحك حرية كاملة في تصميم مطبخك معدل الشفط: بمعدل 380 م3/ساعة، يضمن توفير هواء بجودة مثالية في المطبخ بشكل سريع ضوء LED: لتوفير إضاءة موقد مثالية وموفرة للغاية في استهلاك الطاقة هدوء فائق: أداء فائق عند شدة صوت لا تتجاوز 64 ديسيبل",
+      "specs": {
+        "الموديل": "DWP64CC50Z",
+        "اللون": "ستانليس",
+        "الضمان": "5 أعوام",
+        "بلد الصنع": "تركيا",
+        "الوات": "380 m³/h",
+        "مدخنة": "Yes",
+        "الأبعاد": "60 cm",
+        "شكل الشفاط": "هرمي"
+      },
+      "images": [
+        "https://cairosales.com/29670-thickbox_default/bosch-kitchen-hood-60cm-380m3h-3-speeds-stainless-steel-dwp64cc50z.jpg",
+        "https://cairosales.com/29669-thickbox_default/bosch-kitchen-hood-60cm-380m3h-3-speeds-stainless-steel-dwp64cc50z.jpg",
+        "https://cairosales.com/29666-thickbox_default/bosch-kitchen-hood-60cm-380m3h-3-speeds-stainless-steel-dwp64cc50z.jpg",
+        "https://cairosales.com/29668-thickbox_default/bosch-kitchen-hood-60cm-380m3h-3-speeds-stainless-steel-dwp64cc50z.jpg",
+        "https://cairosales.com/29667-thickbox_default/bosch-kitchen-hood-60cm-380m3h-3-speeds-stainless-steel-dwp64cc50z.jpg",
+        "https://cairosales.com/29671-thickbox_default/bosch-kitchen-hood-60cm-380m3h-3-speeds-stainless-steel-dwp64cc50z.jpg",
+        "https://cairosales.com/29672-thickbox_default/bosch-kitchen-hood-60cm-380m3h-3-speeds-stainless-steel-dwp64cc50z.jpg",
+        "https://cairosales.com/29673-thickbox_default/bosch-kitchen-hood-60cm-380m3h-3-speeds-stainless-steel-dwp64cc50z.jpg",
+        "https://cairosales.com/29674-thickbox_default/bosch-kitchen-hood-60cm-380m3h-3-speeds-stainless-steel-dwp64cc50z.jpg"
+      ],
+      "url": "https://cairosales.com/ar/kitchen-bath-hoods/bosch-kitchen-hood-60cm-380m3h-3-speeds-stainless-steel-dwp64cc50z.html",
+      "short_url": "https://cairosales.com/ar/?controller=product&id_product=8544"
+    }
   },
   "230019012": {
     "code": "230019012",
     "model": "DWK065G60",
     "store_name": "بوش شفاط مطبخ 60 سم ثلاث سرعات بقوة 539 متر مكعب/ ساعة زجاج شفاف أسود",
-    "scraped_at": "2026-09-19T16:01:05",
+    "scraped_at": "2026-09-20T12:10:25",
     "status": "not_found",
     "site": null
   },
@@ -2861,9 +2898,12 @@
     "code": "230019021",
     "model": "DWB64BC52",
     "store_name": "بوش شفاط مطبخ 60 سم ثلاث سرعات بقوة 365 متر مكعب/ ساعة ستانلس ستيل",
-    "scraped_at": "2026-09-19T16:01:22",
-    "status": "not_found",
-    "site": null
+    "scraped_at": "2026-09-20T12:12:18",
+    "status": "no_exact_match",
+    "site": null,
+    "candidates": [
+      "https://cairosales.com/ar/kitchen-bath-hoods/bosch-kitchen-hood-60cm-612m3h-3-speeds-stainless-steel-dwb65bc50t.html"
+    ]
   },
   "230019025": {
     "code": "230019025",
@@ -2940,16 +2980,39 @@
     "code": "236019030",
     "model": "MORAN LUX90",
     "store_name": "شفاط موران لوكس 90 سم",
-    "scraped_at": "2026-09-19T16:05:04",
-    "status": "no_exact_match",
-    "site": null,
-    "candidates": [
-      "https://cairosales.com/ar/kitchen-bath-hoods/turbo-air-hood-classic-60-cm-350-m3h-stainless-moranluxe.html",
-      "https://cairosales.com/ar/kitchen-bath-hoods/turbo-air-hood-classic-80-cm-550-m3h-stainless-moranluxe.html",
-      "https://cairosales.com/ar/kitchen-bath-hoods/turbo-air-hood-classic-90-cm-336-m3h-stainless-moranluxe.html",
-      "https://cairosales.com/ar/kitchen-bath-hoods/turbo-air-hood-classic-90-cm-350-m3h-stainless-moran-90.html",
-      "https://cairosales.com/ar/kitchen-bath-hoods/turbo-air-hood-classic-80-cm-350-m3h-stainless-moran-80.html"
-    ]
+    "scraped_at": "2026-09-20T12:13:57",
+    "status": "ok",
+    "site": {
+      "id_product": "39825",
+      "reference": "MORANLUXE-90",
+      "title": "تربو اير موران لوكس شفاط 90 سم 336 م3/ساعة كلاسيك استانلس ستيل MoranLuxe",
+      "brand": "Turbo Air",
+      "category": "شفاطات مطبخ و حمام",
+      "breadcrumb": [
+        "شفاطات مطبخ و حمام"
+      ],
+      "price_cash": "8499",
+      "price_installment": "",
+      "currency": "EGP",
+      "availability": "instock",
+      "short_description": "اللون: أستانلس ستيل الاصدار: طرد داخلى وخارجى التحكم: ازرار ضغط الاضائة: 2 * 3 وات ليد فلتر الدهون: 3 فلاتر استاليس فلتر كربون: واحد لتنقية الهواء( F00572 / S) قوة الموتور: 130 وات بلد المنشأ: بولندا",
+      "specs": {
+        "الموديل": "MoranLuxe-90",
+        "اللون": "ستانليس",
+        "الضمان": "عامين",
+        "بلد الصنع": "بولندا",
+        "شاشة ديجيتال": "نعم",
+        "الوات": "336 m³/h",
+        "مدخنة": "No",
+        "الأبعاد": "90 cm",
+        "شكل الشفاط": "مسطح"
+      },
+      "images": [
+        "https://cairosales.com/100941-thickbox_default/turbo-air-hood-classic-90-cm-336-m3h-stainless-moranluxe.jpg"
+      ],
+      "url": "https://cairosales.com/ar/kitchen-bath-hoods/turbo-air-hood-classic-90-cm-336-m3h-stainless-moranluxe.html",
+      "short_url": "https://cairosales.com/ar/?controller=product&id_product=39825"
+    }
   },
   "248019025": {
     "code": "248019025",
@@ -2987,7 +3050,7 @@
     "code": "248019028",
     "model": "FHE90D7-17738",
     "store_name": "فريش شفاط 90 سم مدخنة رجاج مائل مزدوج فينيس",
-    "scraped_at": "2026-09-19T16:09:01",
+    "scraped_at": "2026-09-20T12:14:50",
     "status": "not_found",
     "site": null
   },
@@ -2995,7 +3058,7 @@
     "code": "248062014",
     "model": "43LF322RE-12618",
     "store_name": "شاشة ال اى دى فريش بالريسيفر 43 بوصة",
-    "scraped_at": "2026-09-19T16:09:17",
+    "scraped_at": "2026-09-20T12:15:04",
     "status": "not_found",
     "site": null
   },
@@ -3077,7 +3140,7 @@
     "code": "257019029",
     "model": "FPJ 915 V BK/SS",
     "store_name": "شفاط فرانكى",
-    "scraped_at": "2026-09-19T16:12:23",
+    "scraped_at": "2026-09-20T12:15:16",
     "status": "no_exact_match",
     "site": null,
     "candidates": [
@@ -3092,7 +3155,7 @@
     "code": "270019008",
     "model": "901CH-ROMA",
     "store_name": "اي كوك شفاط مطبخ 90 سم روما",
-    "scraped_at": "2026-09-19T16:14:45",
+    "scraped_at": "2026-09-20T12:16:36",
     "status": "no_exact_match",
     "site": null,
     "candidates": [

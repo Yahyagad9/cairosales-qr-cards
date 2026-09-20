@@ -221,6 +221,8 @@ h1 { font-family: "Naskh", serif; font-size: 27px; font-weight: 700; line-height
 .pay .opt:only-child { grid-column: 1 / -1; }
 .paynote { margin: 10px 20px 0; background: rgba(92,127,88,.1); border: 1px solid rgba(92,127,88,.25); border-radius: 12px; padding: 11px 13px; font-size: 11.5px; font-weight: 600; color: var(--ink-soft); line-height: 1.7; }
 .paynote b { font-weight: 800; color: var(--ink); }
+.fresh { margin: 10px 20px 0; display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; color: var(--muted); }
+.fresh .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--leaf); flex-shrink: 0; }
 .soldout { margin: 16px 20px 0; padding: 15px 16px; border-radius: 14px; background: rgba(217,119,87,.1); border: 1px solid rgba(217,119,87,.28); }
 .soldout b { display: block; font-family: "Naskh", serif; font-size: 16px; color: var(--clay-deep); margin-bottom: 5px; }
 .soldout span { font-size: 12px; font-weight: 600; color: var(--ink-soft); line-height: 1.7; }
@@ -453,6 +455,22 @@ def analysis(code, products, family):
     return out
 
 
+def freshness(when=None):
+    """How old the price is, in the words a customer would use."""
+    when = when or date.today()
+    days = (date.today() - when).days
+    if days <= 0:
+        return "السعر محدّث النهاردة"
+    if days == 1:
+        return "السعر محدّث إمبارح"
+    if days < 7:
+        return f"السعر محدّث من {days} أيام"
+    if days < 30:
+        weeks = days // 7
+        return "السعر محدّث من أسبوع" if weeks == 1 else f"السعر محدّث من {weeks} أسابيع"
+    return "السعر محتاج تحديث — اسأل البائع"
+
+
 def rank_label(rank, peers):
     """'الأرخص' / 'تاني أرخص' / 'الأغلى' instead of a bare 5-of-5."""
     ordinals = {2: "تاني", 3: "تالت", 4: "رابع", 5: "خامس"}
@@ -513,7 +531,8 @@ def page_html(code, products):
         <div class="tip">الإجمالي <span class="n">{fmt(inst)}</span> جنيه · أغلى بـ <span class="n">{fmt(saving)}</span></div>
       </div>""" if has_inst else ''}
     </div>
-    {f'<div class="paynote">لو دفعت <b>كاش</b> هتدفع <b class="n">{fmt(price)}</b> جنيه بدل <b class="n">{fmt(inst)}</b>، يعني <b>توفّر <span class="n">{fmt(saving)}</span> جنيه</b> ({saving_pct}%) على نفس المنتج.</div>' if has_inst else ''}"""
+    {f'<div class="paynote">لو دفعت <b>كاش</b> هتدفع <b class="n">{fmt(price)}</b> جنيه بدل <b class="n">{fmt(inst)}</b>، يعني <b>توفّر <span class="n">{fmt(saving)}</span> جنيه</b> ({saving_pct}%) على نفس المنتج.</div>' if has_inst else ''}
+    <div class="fresh"><span class="dot"></span> {freshness()} · السعر في الفرع هو الأساس</div>"""
     else:
         money = """
     <div class="money">

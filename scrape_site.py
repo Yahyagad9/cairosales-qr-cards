@@ -186,12 +186,40 @@ def save_products(products):
                        + [s.get("specs", {}).get(k, "") for k in spec_keys])
 
 
+# Sales codes carry market prefixes/suffixes the website drops:
+# Samsung QA65LS03D -> 65LS03D, UA50U8000HUXEG -> 50U8000H
+PREFIXES = ("qa", "ua", "qe", "ue")
+SUFFIXES = ("haexeg", "aexeg", "huxeg", "uxeg", "xeg", "aruq", "amrg")
+
+
+def model_variants(model):
+    """The same model written the way different systems code it."""
+    base = norm_model(model)
+    out = {base}
+    for v in list(out):
+        for suf in SUFFIXES:
+            if v.endswith(suf) and len(v) - len(suf) >= 5:
+                out.add(v[: -len(suf)])
+    for v in list(out):
+        for pre in PREFIXES:
+            if v.startswith(pre) and len(v) - len(pre) >= 5:
+                out.add(v[len(pre):])
+    return {v for v in out if v}
+
+
 def models_match(mine, theirs):
-    """Same model allowing for punctuation and a missing prefix/suffix letter."""
-    a, b = norm_model(mine), norm_model(theirs)
-    if not a or not b:
+    """Same model allowing for punctuation, market prefixes/suffixes and small spelling gaps."""
+    if not norm_model(mine) or not norm_model(theirs):
         return False
-    return a == b or (len(min(a, b, key=len)) >= 5 and (a in b or b in a))
+    for a in model_variants(mine):
+        for b in model_variants(theirs):
+            if a == b:
+                return True
+            if len(min(a, b, key=len)) >= 5 and (a in b or b in a):
+                return True
+            if len(a) >= 6 and len(b) >= 6 and difflib.SequenceMatcher(None, a, b).ratio() >= 0.88:
+                return True
+    return False
 
 
 def model_tokens(model):
@@ -209,12 +237,13 @@ def catalog_urls(model, limit=5):
     if len(key) < 4:
         return []
     tokens = model_tokens(model)
+    variants = model_variants(model)
     scored = []
     for url in catalog:
         slug = norm_model(url.rsplit("/", 1)[-1].replace(".html", ""))
-        if key in slug:
+        if any(v in slug for v in variants if len(v) >= 5):
             score = 1.0
-        elif tokens and any(t in slug for t in tokens):
+        elif (tokens and any(t in slug for t in tokens)) or not tokens:
             # model written differently (missing prefix, extra letters): compare the tail
             tail = slug[-(len(key) + 8):]
             score = difflib.SequenceMatcher(None, key, tail).ratio()

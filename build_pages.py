@@ -234,6 +234,7 @@ h2 { font-family: "Naskh", serif; font-size: 17px; font-weight: 700; margin-bott
 .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 13px; }
 .stat .k { font-size: 10.5px; font-weight: 700; color: var(--muted); }
+.stat .v.small { font-family: "Cairo"; font-size: 15px; letter-spacing: 0; }
 .stat .v { font-family: "Inter"; font-size: 21px; font-weight: 800; margin-top: 6px; line-height: 1.1; letter-spacing: -.5px; }
 .stat .v small { font-family: "Cairo"; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0; }
 .stat .note { font-size: 10px; font-weight: 700; margin-top: 6px; line-height: 1.5; }
@@ -242,7 +243,9 @@ h2 { font-family: "Naskh", serif; font-size: 17px; font-weight: 700; margin-bott
 /* price meter */
 .meter { margin-top: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
 .meter .cap { font-size: 10.5px; font-weight: 700; color: var(--muted); margin-bottom: 11px; }
-.meter .track { position: relative; height: 7px; border-radius: 6px; background: linear-gradient(90deg, rgba(92,127,88,.35), rgba(217,119,87,.45)); }
+.meter .track { position: relative; height: 7px; border-radius: 6px; margin-top: 26px; background: linear-gradient(to left, rgba(92,127,88,.45), rgba(217,119,87,.5)); }
+.meter .pin { position: absolute; top: -25px; transform: translateX(50%); background: var(--clay); color: #fff; font-size: 10px; font-weight: 800; border-radius: 7px; padding: 3px 7px; white-space: nowrap; }
+.meter .pin::after { content: ""; position: absolute; bottom: -4px; inset-inline-start: calc(50% - 4px); width: 8px; height: 8px; background: var(--clay); transform: rotate(45deg); border-radius: 1px; }
 .meter .dot { position: absolute; top: -5px; width: 17px; height: 17px; border-radius: 50%; background: var(--clay); border: 3px solid var(--card); box-shadow: 0 1px 3px rgba(20,20,19,.25); transform: translateX(50%); }
 .meter .ends { display: flex; justify-content: space-between; margin-top: 9px; font-size: 10px; font-weight: 700; color: var(--muted); }
 
@@ -268,6 +271,8 @@ h2 { font-family: "Naskh", serif; font-size: 17px; font-weight: 700; margin-bott
 .cmp { width: 100%; border-collapse: collapse; font-size: 11.5px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
 .cmp th, .cmp td { padding: 10px 5px; text-align: center; border-bottom: 1px solid var(--line); }
 .cmp thead th { font-weight: 700; font-size: 10.5px; line-height: 1.4; vertical-align: bottom; }
+.cmp thead th a { color: inherit; text-decoration: none; display: block; }
+.cmp thead th .go { display: block; font-size: 9px; font-weight: 700; color: var(--clay-deep); margin-top: 4px; }
 .cmp thead th small { display: block; font-weight: 600; color: var(--muted); font-size: 9px; margin-top: 3px; }
 .cmp tbody th { text-align: right; font-weight: 600; color: var(--muted); font-size: 10.5px; white-space: nowrap; padding-inline-start: 12px; }
 .cmp td { font-weight: 700; }
@@ -448,6 +453,21 @@ def analysis(code, products, family):
     return out
 
 
+def rank_label(rank, peers):
+    """'الأرخص' / 'تاني أرخص' / 'الأغلى' instead of a bare 5-of-5."""
+    ordinals = {2: "تاني", 3: "تالت", 4: "رابع", 5: "خامس"}
+    if rank == 1:
+        return "الأرخص"
+    if rank == peers:
+        return "الأغلى"
+    if rank in ordinals:
+        return f"{ordinals[rank]} أرخص"
+    from_top = peers - rank + 1
+    if from_top in ordinals:
+        return f"{ordinals[from_top]} أغلى"
+    return f"رقم {rank} من {peers} من الأرخص للأغلى"
+
+
 def page_html(code, products):
     p = products[code]
     s = p["site"]
@@ -506,9 +526,9 @@ def page_html(code, products):
     # ---------- quick analysis tiles
     tiles = []
     if a.get("rank"):
-        tiles.append(f"""<div class="stat"><div class="k">ترتيبه في السعر</div>
-          <div class="v"><span class="n">{a['rank']}</span> <small>من {a['peers']}</small></div>
-          <div class="note flat">من الأرخص للأغلى في نفس المقاس</div></div>""")
+        tiles.append(f"""<div class="stat"><div class="k">سعره مقارنة بالمقاس ده</div>
+          <div class="v small">{e(rank_label(a['rank'], a['peers']))}</div>
+          <div class="note flat">من بين <span class="n">{a['peers']}</span> منتج بنفس المقاس عندنا</div></div>""")
     if a.get("value"):
         diff = a["value_diff"]
         klass = "down" if diff < 0 else ("up" if diff > 0 else "flat")
@@ -530,7 +550,10 @@ def page_html(code, products):
         meter = f"""
       <div class="meter">
         <div class="cap">سعره بين {a['peers']} منتج بنفس المقاس عندنا</div>
-        <div class="track"><span class="dot" style="inset-inline-start:calc({100 - a['position']}% - 8px)"></span></div>
+        <div class="track">
+          <span class="pin" style="inset-inline-start:{max(6, min(94, a['position']))}%"><b class="n">{fmt(price)}</b></span>
+          <span class="dot" style="inset-inline-start:calc({a['position']}% - 8px)"></span>
+        </div>
         <div class="ends"><span>الأرخص <b class="n">{fmt(a['min'])}</b></span><span>الأغلى <b class="n">{fmt(a['max'])}</b></span></div>
       </div>"""
 
@@ -561,18 +584,21 @@ def page_html(code, products):
             rows.append((vr["label"], [(value_row(products[c], family) or {}).get("value") for c in cols], vr["better"]))
         insts = [num(products[c]["site"].get("price_installment")) for c in cols]
         if any(insts):
-            rows.insert(1, ("سعر التقسيط", [x or price_of(products[c]) for x, c in zip(insts, cols)], "low"))
-            rows.append(("القسط الشهري", [round((x or price_of(products[c])) / INSTALMENT_MONTHS)
-                                          for x, c in zip(insts, cols)], "low"))
-            rows.append(("فرق الكاش", [round((x - price_of(products[c])) if x else 0) for x, c in zip(insts, cols)], None))
+            # blank, not a made-up number, where a product has no instalment price
+            rows.insert(1, ("سعر التقسيط", list(insts), "low"))
+            rows.append(("القسط الشهري", [round(x / INSTALMENT_MONTHS) if x else None for x in insts], "low"))
+            rows.append(("فرق الكاش", [round(x - price_of(products[c])) if x else None
+                                       for x, c in zip(insts, cols)], None))
 
         head = []
         for i, c in enumerate(cols):
             q = products[c]
             nm = e(BRAND_AR.get(q["site"].get("brand", ""), q["site"].get("brand", "")))
+            inner = f'{nm}<small class="n">{e(q["model"])}</small>'
+            if i:
+                inner = f'<a href="{c}.html">{inner}<span class="go">افتح ›</span></a>'
             head.append(f'<th class="{"me" if i == 0 else ""}">'
-                        + ('<span class="mytag">ده</span><br>' if i == 0 else "")
-                        + f'{nm}<small class="n">{e(q["model"])}</small></th>')
+                        + ('<span class="mytag">ده</span><br>' if i == 0 else "") + inner + '</th>')
 
         body = []
         for label, values, better in rows:
@@ -600,7 +626,7 @@ def page_html(code, products):
         <thead><tr><th></th>{''.join(head)}</tr></thead>
         <tbody>{''.join(body)}</tbody>
       </table>
-      <div class="legend">✓ = الأفضل في السطر ده · الأسعار سعر الكاش اليوم</div>
+      <div class="legend">✓ = الأفضل في السطر ده · دوس على اسم أي منتج تشوف صفحته</div>
     </section>"""
 
     # ---------- who it suits

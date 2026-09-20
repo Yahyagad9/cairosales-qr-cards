@@ -1222,7 +1222,7 @@
     "code": "111019003",
     "model": "CFB 9433 XF",
     "store_name": "شفاط مطبخ بيكو 90 سم - استانلس -2 موتور- مدخنة",
-    "scraped_at": "2026-09-19T15:27:06",
+    "scraped_at": "2026-09-20T11:23:50",
     "status": "no_exact_match",
     "site": null,
     "candidates": [
@@ -1423,7 +1423,7 @@
     "code": "117019033",
     "model": "CONCORDE 60",
     "store_name": "إليكا شفاط حفر 60 سم 400 م3/ساعة 2 موتور استانلس استيل",
-    "scraped_at": "2026-09-19T15:32:15",
+    "scraped_at": "2026-09-20T11:28:50",
     "status": "no_exact_match",
     "site": null,
     "candidates": [
@@ -1475,7 +1475,7 @@
     "code": "117019044",
     "model": "ELICA JOY-PRF0104626A",
     "store_name": "شفاط حرف تي 90 سم جوي بدون فلتر قوه شفط 1000كم/س",
-    "scraped_at": "2026-09-19T15:34:02",
+    "scraped_at": "2026-09-20T11:34:40",
     "status": "no_exact_match",
     "site": null,
     "candidates": [
@@ -1490,16 +1490,39 @@
     "code": "117019045",
     "model": "KREA-BLACK-KL",
     "store_name": "إليكا كيتشن لاين شفاط 60 سم- 450 متر مكعب/ساعة لون أسود",
-    "scraped_at": "2026-09-19T15:37:01",
-    "status": "no_exact_match",
-    "site": null,
-    "candidates": [
-      "https://cairosales.com/ar/kitchen-bath-hoods/elica-hood-90-cm-350-450-m3h-krea-black.html",
-      "https://cairosales.com/ar/built-in-kitchen-products/hans-built-in-gas-hob-90-cm-5-burners-black-hans9210l.html",
-      "https://cairosales.com/ar/built-in-kitchen-products/miele-built-in-gas-hob-4-burners-60-cm-ceramic-black-km3010.html",
-      "https://cairosales.com/ar/built-in-kitchen-products/teva-built-in-flat-hood-60-cm-650-m3h-3-speeds-black-dk6-621-bl.html",
-      "https://cairosales.com/ar/built-in-kitchen-products/teva-built-in-flat-hood-90-cm-650-m3h-3-speeds-black-dk9-621-bl.html"
-    ]
+    "scraped_at": "2026-09-20T11:39:41",
+    "status": "ok",
+    "site": {
+      "id_product": "45215",
+      "reference": "KREA-90-BLACK-KL",
+      "title": "إليكا شفاط مسطح 90 سم 350 - 450 متر مكعب/ساعة اسود KREA BLACK",
+      "brand": "Elica",
+      "category": "شفاطات مطبخ و حمام",
+      "breadcrumb": [
+        "شفاطات مطبخ و حمام"
+      ],
+      "price_cash": "6699",
+      "price_installment": "",
+      "currency": "EGP",
+      "availability": "instock",
+      "short_description": "الوزن (كجم): GFA: 6.8 - LX: 6.95 اللون : أسود الأبعاد (سم): 90 فئة الطاقة: D الحد الأدنى للمسافة من موقد الحث/الإشعاعي المثبت على الحائط: 50 سم الحد الأدنى للمسافة من موقد الغاز المثبت على الحائط: 65 سم مجرى الهواء: 120 مم الإضاءة: GFA: مصباحان LED 2x3 واط - 2700 كلفن - 121 لوكس LX: مصباحان LED 2x3 واط - 2700 كلفن - 97 لوكس الامتصاص: GFA: 101 واط LX: 166 واط تدفق الهواء: الحد الأدنى-الأقصى: GFA: 150-350 متر مكعب/ساعة LX: 250-450 متر مكعب/ساعة مستوى الضوضاء: الحد الأدنى-الأقصى: GFA: 50 ديسيبل (أمبير) - 64 ديسيبل (أمبير) LX: ٥٢ ديسيبل (أمبير) - ٧٣ ديسيبل (أمبير) التحكم: منزلق ميكانيكي ثلاثي الأبعاد",
+      "specs": {
+        "الموديل": "KREA 90-BLACK-KL",
+        "الحجم": "90 سم",
+        "اللون": "أسود",
+        "الضمان": "3 سنوات",
+        "بلد الصنع": "بولندا",
+        "العرض": "90 cm",
+        "الوات": "350 - 450 متر مكعب/ ساعة",
+        "الأبعاد": "90 cm",
+        "شكل الشفاط": "مسطح"
+      },
+      "images": [
+        "https://cairosales.com/121225-thickbox_default/elica-hood-90-cm-350-450-m3h-krea-black.jpg"
+      ],
+      "url": "https://cairosales.com/ar/kitchen-bath-hoods/elica-hood-90-cm-350-450-m3h-krea-black.html",
+      "short_url": "https://cairosales.com/ar/?controller=product&id_product=45215"
+    }
   },
   "117019051": {
     "code": "117019051",
@@ -1581,17 +1604,83 @@
     "code": "120062396",
     "model": "QA55QN85DB",
     "store_name": "سامسونج شاشة 55 بوصة كيو ال اي دي الترا اتش دي فور كاي فئه نيو سمارت وايرلس برسيفر داخل",
-    "scraped_at": "2026-09-19T15:41:59",
-    "status": "not_found",
-    "site": null
+    "scraped_at": "2026-09-20T11:41:20",
+    "status": "ok",
+    "site": {
+      "id_product": "40679",
+      "reference": "55QN85D",
+      "title": "سامسونج شاشة 55 بوصة كيو إل إي دي ألترا إتش دي فور كاي سمارت وايرلس بريسيفر داخلي TV 55QN85D",
+      "brand": "SAMSUNG",
+      "category": "شاشات و تليفزيونات",
+      "breadcrumb": [
+        "شاشات و تليفزيونات"
+      ],
+      "price_cash": "37799",
+      "price_installment": "39999",
+      "currency": "EGP",
+      "availability": "instock",
+      "short_description": "حجم الشاشة: 85 بوصة الدقة: 3840 × 2160 منفذ HDMI: 4 يو اس بي: 2",
+      "specs": {
+        "الموديل": "55QN85D",
+        "الحجم": "بوصة 55",
+        "سمارت": "نعم",
+        "USB مداخل": "2",
+        "HDMI مداخل": "4",
+        "ريسيفر داخلي": "نعم",
+        "إلترا": "نعم",
+        "دقة الشاشة": "UHD 4K"
+      },
+      "images": [
+        "https://cairosales.com/103668-thickbox_default/samsung-55-inch-4k-uhd-neo-qled-smart-tv-55qn85d.jpg",
+        "https://cairosales.com/103669-thickbox_default/samsung-55-inch-4k-uhd-neo-qled-smart-tv-55qn85d.jpg",
+        "https://cairosales.com/103670-thickbox_default/samsung-55-inch-4k-uhd-neo-qled-smart-tv-55qn85d.jpg",
+        "https://cairosales.com/103671-thickbox_default/samsung-55-inch-4k-uhd-neo-qled-smart-tv-55qn85d.jpg"
+      ],
+      "url": "https://cairosales.com/ar/led-plasma-tvs/samsung-55-inch-4k-uhd-neo-qled-smart-tv-55qn85d.html",
+      "short_url": "https://cairosales.com/ar/?controller=product&id_product=40679"
+    }
   },
   "120062405": {
     "code": "120062405",
     "model": "QA65LS03D",
     "store_name": "سامسونج شاشة 65 بوصة كيو إل إي دي ألترا إتش دي 4 كيه سمارت 3840*2160 بيكسل",
-    "scraped_at": "2026-09-19T15:42:49",
-    "status": "not_found",
-    "site": null
+    "scraped_at": "2026-09-20T11:43:01",
+    "status": "ok",
+    "site": {
+      "id_product": "40818",
+      "reference": "65LS03D",
+      "title": "سامسونج شاشة 65 بوصة ذا فريم 4K كيو ال اي دي سمارت S-65LS03D",
+      "brand": "SAMSUNG",
+      "category": "شاشات و تليفزيونات",
+      "breadcrumb": [
+        "شاشات و تليفزيونات"
+      ],
+      "price_cash": "45999",
+      "price_installment": "47999",
+      "currency": "EGP",
+      "availability": "instock",
+      "short_description": "نوع المنتج كيو إل إي دي نوع العرض QLED حجم الشاشة (سم/بوصة) 163 سم/65 بوصة الأبعاد بدون الحامل (عرض/ارتفاع/عمق) 1457 ملم / 832 ملم / 25 ملم جودة الصورة UHD 4K رقم ثلاثي الأبعاد سمارت نظام التشغيل تايزن",
+      "specs": {
+        "الموديل": "65LS03D",
+        "الحجم": "بوصة 65",
+        "سمارت": "نعم",
+        "USB مداخل": "2",
+        "HDMI مداخل": "4",
+        "منحنى": "لا",
+        "إلترا": "نعم",
+        "دقة الشاشة": "UHD 4K",
+        "نظام التشغيل": "Tizen"
+      },
+      "images": [
+        "https://cairosales.com/104359-thickbox_default/samsung-tv-65-inch-the-frame-4k-qled-smart-65ls03d.jpg",
+        "https://cairosales.com/104360-thickbox_default/samsung-tv-65-inch-the-frame-4k-qled-smart-65ls03d.jpg",
+        "https://cairosales.com/104361-thickbox_default/samsung-tv-65-inch-the-frame-4k-qled-smart-65ls03d.jpg",
+        "https://cairosales.com/104362-thickbox_default/samsung-tv-65-inch-the-frame-4k-qled-smart-65ls03d.jpg",
+        "https://cairosales.com/104363-thickbox_default/samsung-tv-65-inch-the-frame-4k-qled-smart-65ls03d.jpg"
+      ],
+      "url": "https://cairosales.com/ar/led-plasma-tvs/samsung-tv-65-inch-the-frame-4k-qled-smart-65ls03d.html",
+      "short_url": "https://cairosales.com/ar/?controller=product&id_product=40818"
+    }
   },
   "120062432": {
     "code": "120062432",
@@ -1874,7 +1963,7 @@
     "code": "120062493",
     "model": "UA65M70HAUXEG",
     "store_name": "شاشة سامسونج 65 بوصه سمارت",
-    "scraped_at": "2026-09-19T15:43:43",
+    "scraped_at": "2026-09-20T11:44:16",
     "status": "not_found",
     "site": null
   },
@@ -1924,17 +2013,94 @@
     "code": "120062496",
     "model": "UA65M80H",
     "store_name": "شاشة تلفزيون سمارت سامسونج 65 بوصه بدقة 4K UHD",
-    "scraped_at": "2026-09-19T15:45:08",
-    "status": "not_found",
-    "site": null
+    "scraped_at": "2026-09-20T11:45:05",
+    "status": "ok",
+    "site": {
+      "id_product": "49705",
+      "reference": "65M80H",
+      "title": "سامسونج شاشة 65 بوصة Class Mini LED M80H Series Vision AI Smart TV 65M80H",
+      "brand": "SAMSUNG",
+      "category": "شاشات و تليفزيونات",
+      "breadcrumb": [
+        "شاشات و تليفزيونات"
+      ],
+      "price_cash": "37990",
+      "price_installment": "41999",
+      "currency": "EGP",
+      "availability": "instock",
+      "short_description": "حجم الشاشة: 65 بوصة العلامة التجارية: سامسونج تقنية العرض: LED الدقة: 4K معدل التحديث: 120 هرتز الدقة: 3840 × 2160 معدل التحديث: 144 هرتز (مع دعم VRR) DLG: 240 هرتز ميزات خاصة: مكبر صوت مدمج، وضع الألعاب المكونات المرفقة: كابل الطاقة، جهاز تحكم عن بعد، حامل، دليل المستخدم، بطاقة الضمان تقنيات الاتصال: بلوتوث، HDMI، USB، واي فاي",
+      "specs": {
+        "الموديل": "65M80H",
+        "الحجم": "بوصة 65",
+        "الضمان": "عامين",
+        "بلد الصنع": "مصر",
+        "ريموت كونترول": "نعم",
+        "سمارت": "نعم",
+        "USB مداخل": "1",
+        "HDMI مداخل": "3",
+        "اريال داخلى": "دجيتال",
+        "ريسيفر داخلي": "نعم",
+        "إلترا": "نعم",
+        "دقة الشاشة": "UHD 4K"
+      },
+      "images": [
+        "https://cairosales.com/134709-thickbox_default/samsung-65-inch-class-mini-led-m80h-series-vision-ai-smart-tv-65m80h.jpg",
+        "https://cairosales.com/134710-thickbox_default/samsung-65-inch-class-mini-led-m80h-series-vision-ai-smart-tv-65m80h.jpg",
+        "https://cairosales.com/134700-thickbox_default/samsung-65-inch-class-mini-led-m80h-series-vision-ai-smart-tv-65m80h.jpg",
+        "https://cairosales.com/134701-thickbox_default/samsung-65-inch-class-mini-led-m80h-series-vision-ai-smart-tv-65m80h.jpg",
+        "https://cairosales.com/134702-thickbox_default/samsung-65-inch-class-mini-led-m80h-series-vision-ai-smart-tv-65m80h.jpg",
+        "https://cairosales.com/134703-thickbox_default/samsung-65-inch-class-mini-led-m80h-series-vision-ai-smart-tv-65m80h.jpg",
+        "https://cairosales.com/134704-thickbox_default/samsung-65-inch-class-mini-led-m80h-series-vision-ai-smart-tv-65m80h.jpg",
+        "https://cairosales.com/134705-thickbox_default/samsung-65-inch-class-mini-led-m80h-series-vision-ai-smart-tv-65m80h.jpg",
+        "https://cairosales.com/134706-thickbox_default/samsung-65-inch-class-mini-led-m80h-series-vision-ai-smart-tv-65m80h.jpg",
+        "https://cairosales.com/134707-thickbox_default/samsung-65-inch-class-mini-led-m80h-series-vision-ai-smart-tv-65m80h.jpg"
+      ],
+      "url": "https://cairosales.com/ar/led-plasma-tvs/samsung-65-inch-class-mini-led-m80h-series-vision-ai-smart-tv-65m80h.html",
+      "short_url": "https://cairosales.com/ar/?controller=product&id_product=49705"
+    }
   },
   "120062499": {
     "code": "120062499",
     "model": "QA55S85HAEXEG",
     "store_name": "شاشة سامسونج سمارت 55 بوصة",
-    "scraped_at": "2026-09-19T15:45:25",
-    "status": "not_found",
-    "site": null
+    "scraped_at": "2026-09-20T11:46:46",
+    "status": "ok",
+    "site": {
+      "id_product": "44454",
+      "reference": "55S85F",
+      "title": "سامسونج شاشة سمارت 55 بوصة فائق الدقة اوليد 4 كيه TV 55S85F",
+      "brand": "SAMSUNG",
+      "category": "شاشات و تليفزيونات",
+      "breadcrumb": [
+        "شاشات و تليفزيونات"
+      ],
+      "price_cash": "42999",
+      "price_installment": "45999",
+      "currency": "EGP",
+      "availability": "instock",
+      "short_description": "نوع التلفزيون: OLED منصة ذكية: Tizen دقة الشاشة: 4K UHD (3840x2160) الشاشة: 55 بوصة 4 منافذ HDMI منفذا USB",
+      "specs": {
+        "الموديل": "55S85F",
+        "الحجم": "بوصة 55",
+        "الضمان": "عامين",
+        "بلد الصنع": "مصر",
+        "سمارت": "نعم",
+        "USB مداخل": "2",
+        "HDMI مداخل": "4",
+        "منحنى": "لا",
+        "ريسيفر داخلي": "نعم",
+        "إلترا": "نعم"
+      },
+      "images": [
+        "https://cairosales.com/117009-thickbox_default/samsung-55-inch-oled-smart-tv-3840x2160-55s85f.jpg",
+        "https://cairosales.com/117007-thickbox_default/samsung-55-inch-oled-smart-tv-3840x2160-55s85f.jpg",
+        "https://cairosales.com/117008-thickbox_default/samsung-55-inch-oled-smart-tv-3840x2160-55s85f.jpg",
+        "https://cairosales.com/117006-thickbox_default/samsung-55-inch-oled-smart-tv-3840x2160-55s85f.jpg",
+        "https://cairosales.com/117005-thickbox_default/samsung-55-inch-oled-smart-tv-3840x2160-55s85f.jpg"
+      ],
+      "url": "https://cairosales.com/ar/led-plasma-tvs/samsung-55-inch-oled-smart-tv-3840x2160-55s85f.html",
+      "short_url": "https://cairosales.com/ar/?controller=product&id_product=44454"
+    }
   },
   "120062515": {
     "code": "120062515",
@@ -2092,7 +2258,7 @@
     "code": "125019003",
     "model": "GHC951X",
     "store_name": "شفاط جليم جاز 90 سم ستانلس 2 موتور(G)",
-    "scraped_at": "2026-09-19T15:46:17",
+    "scraped_at": "2026-09-20T11:48:28",
     "status": "not_found",
     "site": null
   },
@@ -2287,7 +2453,7 @@
     "code": "185062039",
     "model": "H43K75FFX",
     "store_name": "هاير شاشة 43 بوصة ال اى دى FHD بريسيفر بيلت ان",
-    "scraped_at": "2026-09-19T15:48:14",
+    "scraped_at": "2026-09-20T11:49:18",
     "status": "not_found",
     "site": null
   },
@@ -2449,7 +2615,7 @@
     "code": "190019002",
     "model": "CFB-600AXA",
     "store_name": "شفاط بلت ان فاجور 60 سم ديكورى استانلس",
-    "scraped_at": "2026-09-19T15:51:36",
+    "scraped_at": "2026-09-20T11:50:08",
     "status": "no_exact_match",
     "site": null,
     "candidates": [

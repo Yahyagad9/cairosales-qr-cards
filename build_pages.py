@@ -197,6 +197,9 @@ img { max-width: 100%; display: block; }
 .band .store img { width: 28px; height: 28px; border-radius: 50%; }
 .stock { font-size: 10.5px; font-weight: 700; border-radius: 30px; padding: 5px 11px; background: rgba(92,127,88,.14); color: var(--leaf); white-space: nowrap; }
 .stock.out { background: rgba(181,87,59,.13); color: var(--clay-deep); }
+.stock.checking { background: rgba(204,155,122,.2); color: #8A6440; }
+.soldout.checking { background: rgba(204,155,122,.14); border-color: rgba(204,155,122,.4); }
+.soldout.checking b { color: #8A6440; }
 h1 { font-family: "Naskh", serif; font-size: 27px; font-weight: 700; line-height: 1.5; margin-top: 16px; letter-spacing: -.2px; }
 .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
 .meta span { font-size: 10.5px; font-weight: 600; color: var(--ink-soft); background: rgba(20,20,19,.045); border-radius: 7px; padding: 5px 10px; }
@@ -495,8 +498,12 @@ def page_html(code, products):
     price = price_of(p)
     inst = num(s.get("price_installment")) or price
     monthly = round(inst / INSTALMENT_MONTHS) if inst else None
-    # Stock rule: a price on the website means we have it; no price means it is finished
+    # Stock rule: a price means we have it. No price for one run only means we are still
+    # checking — a single missing price is as likely to be a website hiccup as a sold-out item.
     in_stock = bool(price)
+    missing_runs = int(p.get("price_missing_runs", 0))
+    confirming = not in_stock and missing_runs == 1
+    last_price = num(p.get("last_price_cash"))
     a = analysis(code, products, family) if in_stock else {}
     size = size_of(p, family)
     specs = s.get("specs", {})
@@ -533,6 +540,14 @@ def page_html(code, products):
     </div>
     {f'<div class="paynote">لو دفعت <b>كاش</b> هتدفع <b class="n">{fmt(price)}</b> جنيه بدل <b class="n">{fmt(inst)}</b>، يعني <b>توفّر <span class="n">{fmt(saving)}</span> جنيه</b> ({saving_pct}%) على نفس المنتج.</div>' if has_inst else ''}
     <div class="fresh"><span class="dot"></span> {freshness()} · السعر في الفرع هو الأساس</div>"""
+    elif confirming:
+        money = f"""
+    <div class="money">
+      <div class="soldout checking">
+        <b>بنأكد سعر المنتج ده دلوقتي</b>
+        <span>{f'آخر سعر سجّلناه <b class="n">{fmt(last_price)}</b> جنيه · ' if last_price else ''}اسأل البائع على السعر النهاردة</span>
+      </div>
+    </div>"""
     else:
         money = """
     <div class="money">
@@ -708,7 +723,7 @@ def page_html(code, products):
   <div class="band">
     <div class="line">
       <div class="store"><img src="../assets/logo.jpeg" alt=""> {STORE['name']} · {STORE['branch']}</div>
-      <span class="stock{'' if in_stock else ' out'}">{'● متوفر' if in_stock else '● غير متوفر حاليًا'}</span>
+      <span class="stock{'' if in_stock else (' checking' if confirming else ' out')}">{'● متوفر' if in_stock else ('● بنأكد السعر' if confirming else '● غير متوفر حاليًا')}</span>
     </div>
     <h1>{e(clean_title(p))}</h1>
     <div class="meta">{''.join(meta)}<span class="n">{e(p['model'])}</span></div>

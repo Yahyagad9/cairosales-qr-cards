@@ -300,10 +300,29 @@ def refresh_prices(item, products):
             or models_match(item["model"], site["specs"].get("الموديل", ""))):
         # the page moved to a different product: leave the old record alone for a human to check
         return {**old, "status": "moved", "checked_at": datetime.now().isoformat(timespec="seconds")}
+    old_site = old.get("site") or {}
+    healthy = bool(site.get("title")) and bool(site.get("specs") or site.get("images"))
+    if not healthy:
+        # page came back damaged: keep what we had rather than wiping a good record
+        return {**old, "status": "stale", "checked_at": datetime.now().isoformat(timespec="seconds")}
+
     RAW.mkdir(parents=True, exist_ok=True)
     (RAW / f"{code}.html").write_text(html, encoding="utf-8")
-    return {**old, "status": "ok", "site": site,
-            "scraped_at": datetime.now().isoformat(timespec="seconds")}
+
+    now = datetime.now().isoformat(timespec="seconds")
+    record = {**old, "status": "ok", "site": site, "scraped_at": now}
+    if site.get("price_cash"):
+        # remember the last price we saw, so a later disappearance can be explained
+        record["last_price_cash"] = site["price_cash"]
+        record["last_price_at"] = now
+        record["price_missing_runs"] = 0
+    else:
+        # the page is fine but carries no price: could be sold out, could be a site hiccup.
+        # count it — one run is not enough to tell a customer the product is gone.
+        record["price_missing_runs"] = int(old.get("price_missing_runs", 0)) + 1
+        record["last_price_cash"] = old.get("last_price_cash") or old_site.get("price_cash", "")
+        record["last_price_at"] = old.get("last_price_at") or old.get("scraped_at", "")
+    return record
 
 
 def main(args):

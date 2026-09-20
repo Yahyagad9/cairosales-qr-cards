@@ -23,6 +23,9 @@ BASELINE = DATA / "baseline.json"
 MAX_PRICE_JUMP = 0.40
 # How many matched products may vanish in one run before the build is blocked
 MAX_LOST_PRODUCTS = 2
+# Prices disappear legitimately when stock sells out; these caps catch site-wide faults instead
+MAX_VANISHED_PRICES = 8
+MAX_VANISHED_SHARE = 0.15
 
 
 def load(path):
@@ -60,12 +63,28 @@ def check(new, old):
         elif lost:
             warnings.append(f"{len(lost)} product(s) lost their data: {', '.join(lost)}.")
 
+        # A price vanishing is normal business (sold out). A lot of them vanishing at once
+        # is almost always the website or our parsing, so that is what blocks a publish.
         no_price = sorted(c for c in ok_new & set(prices_old) if c not in prices_new)
-        if len(no_price) > MAX_LOST_PRODUCTS:
-            blocking.append(f"{len(no_price)} products lost their price, which would mark them out of stock "
-                            f"({', '.join(no_price[:5])}{'…' if len(no_price) > 5 else ''}).")
+        share = len(no_price) / max(len(prices_old), 1)
+        if len(no_price) > MAX_VANISHED_PRICES or share > MAX_VANISHED_SHARE:
+            blocking.append(f"{len(no_price)} of {len(prices_old)} priced products lost their price in one run "
+                            f"({share:.0%}) — that looks like a website or parsing fault, not sold-out stock.")
         elif no_price:
-            warnings.append(f"{len(no_price)} product(s) now show no price: {', '.join(no_price)}.")
+            pending = [c for c in no_price if new[c].get("price_missing_runs", 0) < 2]
+            confirmed = [c for c in no_price if new[c].get("price_missing_runs", 0) >= 2]
+            if pending:
+                warnings.append(f"{len(pending)} product(s) show no price for the first time — the page will say "
+                                f"the price is being confirmed, not out of stock: {', '.join(pending)}.")
+            if confirmed:
+                warnings.append(f"{len(confirmed)} product(s) have had no price for two runs and now read as "
+                                f"out of stock: {', '.join(confirmed)}.")
+
+        stale = sorted(c for c, p in new.items() if p.get("status") == "stale")
+        if len(stale) > MAX_VANISHED_PRICES:
+            blocking.append(f"{len(stale)} product pages came back damaged — the site may be down or blocking us.")
+        elif stale:
+            warnings.append(f"{len(stale)} page(s) came back damaged; the previous data was kept: {', '.join(stale)}.")
 
     for code, price in prices_new.items():
         model = new[code].get("model", code)

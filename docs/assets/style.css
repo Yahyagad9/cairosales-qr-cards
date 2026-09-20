@@ -28,6 +28,9 @@ img { max-width: 100%; display: block; }
 .band .store img { width: 28px; height: 28px; border-radius: 50%; }
 .stock { font-size: 10.5px; font-weight: 700; border-radius: 30px; padding: 5px 11px; background: rgba(92,127,88,.14); color: var(--leaf); white-space: nowrap; }
 .stock.out { background: rgba(181,87,59,.13); color: var(--clay-deep); }
+.stock.checking { background: rgba(204,155,122,.2); color: #8A6440; }
+.soldout.checking { background: rgba(204,155,122,.14); border-color: rgba(204,155,122,.4); }
+.soldout.checking b { color: #8A6440; }
 h1 { font-family: "Naskh", serif; font-size: 27px; font-weight: 700; line-height: 1.5; margin-top: 16px; letter-spacing: -.2px; }
 .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
 .meta span { font-size: 10.5px; font-weight: 600; color: var(--ink-soft); background: rgba(20,20,19,.045); border-radius: 7px; padding: 5px 10px; }

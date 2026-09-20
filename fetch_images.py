@@ -34,10 +34,25 @@ def grab(url, out):
         return False  # retried on the next run
     if not tmp.exists():
         return False
-    Image.open(tmp).convert("RGB").crop((250, 250, 750, 750)).save(out, quality=92)
+    shot = Image.open(tmp).convert("RGB").crop((250, 250, 750, 750))
     tmp.unlink()
     time.sleep(2)
+    if not looks_like_a_photo(shot):
+        # Chrome rendered an error page (no network, blocked image) instead of the picture
+        return False
+    shot.save(out, quality=92)
     return True
+
+
+def looks_like_a_photo(im):
+    """Reject Chrome's error pages: a blank sheet with a line or two of text at the top."""
+    grey = im.convert("L")
+    w, h = grey.size
+    pixels = list(grey.getdata())
+    white = sum(1 for v in pixels if v >= 245) / len(pixels)
+    lower = grey.crop((0, h // 3, w, h))
+    ink_below = sum(1 for v in lower.getdata() if v < 200) / (w * (h - h // 3))
+    return not (white > 0.93 and ink_below < 0.01)
 
 
 def main(codes):

@@ -169,9 +169,16 @@ def render(item):
     png = OUT / f"label_{item['code']}.png"
     pdf = OUT / f"label_{item['code']}.pdf"
 
-    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--virtual-time-budget=3000",
-                    "--no-pdf-header-footer", f"--print-to-pdf={pdf}", url],
-                   check=True, capture_output=True)
+    for attempt in range(1, 4):  # Chrome occasionally hangs; never wait on it forever
+        try:
+            subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--virtual-time-budget=3000",
+                            "--no-pdf-header-footer", f"--print-to-pdf={pdf}", url],
+                           check=True, capture_output=True, timeout=60)
+            break
+        except subprocess.TimeoutExpired:
+            if attempt == 3:
+                page.unlink(missing_ok=True)
+                raise RuntimeError(f"Chrome timed out rendering {item['code']}")
     page.unlink()
     # PNG from the PDF (Chrome screenshots can't go narrower than its minimum window width)
     with pymupdf.open(pdf) as doc:

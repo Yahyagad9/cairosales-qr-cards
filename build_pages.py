@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent
 DOCS = ROOT / "docs"
-SITE_BASE = "https://yahyagad9.github.io/cairosales-qr-cards"
+SITE_BASE = "https://cairosalesstores.github.io/qr"
 
 STORE = {"name": "أسواق القاهرة للمبيعات", "hotline": "16141"}
 INSTALMENT_MONTHS = 12

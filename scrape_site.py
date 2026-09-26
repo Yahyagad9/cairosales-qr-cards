@@ -301,9 +301,17 @@ def refresh_prices(item, products):
         return old
     html = fetch(url)
     site = parse_product(html)
-    if not (models_match(item["model"], site["reference"])
-            or models_match(item["model"], site["specs"].get("الموديل", ""))):
-        # the page moved to a different product: leave the old record alone for a human to check
+    # Our model spelling can differ from the site's (OCR of the scanned stock report), so the
+    # strongest check is that the page still shows the same reference it did when we matched it.
+    old_ref = (old.get("site") or {}).get("reference", "")
+    spellings = [item.get("model", ""), item.get("model_alt", ""), old_ref]
+    same_product = (
+        (old_ref and norm_model(old_ref) == norm_model(site["reference"]))
+        or any(models_match(m, site["reference"]) or models_match(m, site["specs"].get("الموديل", ""))
+               for m in spellings if m)
+    )
+    if not same_product:
+        # the page really does show a different product: keep the old record for a human to check
         return {**old, "status": "moved", "checked_at": datetime.now().isoformat(timespec="seconds")}
     old_site = old.get("site") or {}
     healthy = bool(site.get("title")) and bool(site.get("specs") or site.get("images"))
@@ -352,8 +360,14 @@ def main(args):
         try:
             rec = refresh_prices(item, products) if prices_only else scrape_item(item, reparse=reparse)
         except Exception as e:  # keep going; failed items are retried on the next run
-            rec = {"code": item["code"], "model": item["model"], "store_name": item["name"],
-                   "status": f"error: {e}", "site": None}
+            prev = products.get(item["code"])
+            if prev and prev.get("site"):
+                # a timeout or a blocked request must never cost us a product we already have
+                rec = {**prev, "last_error": str(e),
+                       "checked_at": datetime.now().isoformat(timespec="seconds")}
+            else:
+                rec = {"code": item["code"], "model": item["model"], "store_name": item["name"],
+                       "status": f"error: {e}", "site": None}
         products[item["code"]] = rec
         site = rec.get("site") or {}
         print(f"[{n}/{len(todo)}] {item['code']} {item['model']}: {rec['status']}"

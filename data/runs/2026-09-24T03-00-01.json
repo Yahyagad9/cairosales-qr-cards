@@ -1,0 +1,23 @@
+{
+  "started": "2026-09-24T03:00:01",
+  "published": false,
+  "result": "blocked",
+  "stats": {
+    "items": 669,
+    "with_data": 110,
+    "with_price": 110,
+    "price_changes": 5,
+    "new_products": 80
+  },
+  "blocking": [
+    "65 products lost their data since the last good run (101001133, 101019001, 101062465, 101062505, 101062516…)."
+  ],
+  "warnings": [
+    "WHC924EX (287019023) +7%: 10,679 → 11,399 EGP."
+  ],
+  "refresh_tail": [
+    "[118/119] 523062002 K65MA500D: ok | cash 44999 / installments  EGP | 14 specs",
+    "[119/119] 523062004 K55QA501D: ok | cash 21990 / installments  EGP | 13 specs",
+    "done: 110/669 items matched on the site"
+  ]
+}
